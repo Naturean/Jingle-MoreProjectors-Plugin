@@ -1,0 +1,6 @@
+{
+  "name": "Jingle More Projectors Plugin",
+  "id": "more-projectors-plugin",
+  "version": "${version}",
+  "initializer": "com.naturean.moreprojectors.MoreProjectors::initialize"
+}

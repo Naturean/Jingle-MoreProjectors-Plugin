@@ -1,0 +1,56 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath "gradle.plugin.com.github.johnrengelman:shadow:8.0.0"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.0.0'
+}
+
+configurations {
+    provided
+    compile.extendsFrom provided
+}
+
+compileJava {
+    options.compilerArgs << '-parameters'
+}
+
+dependencies {
+    // Jingle: https://jitpack.io/#DuncanRuns/Jingle/
+    implementation 'com.github.DuncanRuns:Jingle:v1.1.4'
+}
+
+group = project.plugin_group
+version = project.plugin_version
+archivesBaseName = project.plugin_base_name
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("jingle.plugin.json") {
+        expand "version": project.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+}
+
+// For testing: https://github.com/marin774/Jingle-CalcOverlay-Plugin/blob/main/build.gradle#L65
+var jinglePluginsFolderPath = "${System.getProperty('user.home')}/.config/Jingle/plugins"
+tasks.register('copyJar', Copy) {
+    from shadowJar
+    into jinglePluginsFolderPath
+}

@@ -1,0 +1,12 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
+rootProject.name = 'Jingle-MoreProjectors-Plugin'
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url "https://www.jetbrains.com/intellij-repository/releases" }
+    }
+}
