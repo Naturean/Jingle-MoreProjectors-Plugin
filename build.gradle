@@ -37,10 +37,18 @@ java {
 }
 
 processResources {
-    inputs.property "version", project.version
+    inputs.property "version", version
 
     filesMatching("jingle.plugin.json") {
-        expand "version": project.version
+        expand "version": version
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+                'Implementation-Version': version
+        )
     }
 }
 

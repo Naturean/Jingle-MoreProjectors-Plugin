@@ -11,13 +11,14 @@ import xyz.duncanruns.jingle.JingleAppLaunch;
 import xyz.duncanruns.jingle.gui.JingleGUI;
 import xyz.duncanruns.jingle.plugin.PluginEvents;
 import xyz.duncanruns.jingle.plugin.PluginManager;
-import xyz.duncanruns.jingle.util.ResourceUtil;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 import java.util.Optional;
 
 public class MoreProjectors {
@@ -25,7 +26,7 @@ public class MoreProjectors {
     public static final Path OBS_LINK_STATE_PATH = MORE_PROJECTORS_FOLDER_PATH.resolve("obs-link-state");
     public static final Path OBS_SCRIPT_PATH = MORE_PROJECTORS_FOLDER_PATH.resolve("more-projector-obs-link.lua");
 
-    public static final String CURRENT_VERSION = Optional.ofNullable(Jingle.class.getPackage().getImplementationVersion()).orElse("DEV");
+    public static final String CURRENT_VERSION = Optional.ofNullable(MoreProjectors.class.getPackage().getImplementationVersion()).orElse("DEV");
 
     private static boolean running = false;
 
@@ -102,7 +103,7 @@ public class MoreProjectors {
     private static void createObsScriptFile() {
         try {
             String logMessage = Files.exists(OBS_SCRIPT_PATH) ? "Regenerated" : "Generated";
-            ResourceUtil.copyResourceToFile("/more-projector-obs-link.lua", OBS_SCRIPT_PATH);
+            Files.copy(Objects.requireNonNull(MoreProjectors.class.getResourceAsStream("/more-projector-obs-link.lua")), OBS_SCRIPT_PATH, StandardCopyOption.REPLACE_EXISTING);
             MoreProjectors.log(Level.INFO, logMessage + " more-projector-obs-link.lua");
         } catch (IOException e) {
             MoreProjectors.logError("Failed to write more-projector-obs-link.lua:\n", e);
