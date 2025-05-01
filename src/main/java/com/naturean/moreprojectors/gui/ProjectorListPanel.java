@@ -108,8 +108,9 @@ public class ProjectorListPanel extends JPanel {
                 MoreProjectors.options.projectors = (
                         MoreProjectors.options.projectors.stream()
                                 .map(p -> p.equals(projector) ? new Projector(dialog.name, p.enable, new ProjectorSettings(
-                                        dialog.autoOpen, dialog.alwaysActivate, dialog.ignoreModifiers, dialog.shouldBorderless, dialog.topWhenActive,
-                                        dialog.minimizeWhenInactive, dialog.geometry, dialog.hotkeys, dialog.allowedInstanceStates, dialog.allowedInWorldStates
+                                        dialog.autoOpen, dialog.alwaysActivate, dialog.ignoreModifiers, dialog.shouldBorderless,
+                                        dialog.topWhenActive, dialog.minimizeWhenInactive, dialog.inactivateWhenOther,
+                                        dialog.geometry, dialog.hotkeys, dialog.allowedInstanceStates, dialog.allowedInWorldStates
                                 )) : p).collect(Collectors.toList())
                 );
 

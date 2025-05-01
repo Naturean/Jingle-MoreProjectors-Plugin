@@ -14,6 +14,7 @@ public final class ProjectorSettings {
     public boolean shouldBorderless = true;
     public boolean topWhenActive = true;
     public boolean minimizeWhenInactive = false;
+    public boolean inactivateWhenOther = true;
 
     // [x,y,w,h]
     public int[] geometry = new int[]{0, 0, 0, 0};
@@ -29,8 +30,8 @@ public final class ProjectorSettings {
         this.allowedInWorldStates.add(InstanceState.InWorldState.PAUSED);
     }
 
-    public ProjectorSettings(boolean autoOpen, boolean alwaysActivate, boolean ignoreModifiers, boolean shouldBorderless,
-                             boolean topWhenActive, boolean minimizeWhenInactive, int[] geometry, List<Integer> hotkeys,
+    public ProjectorSettings(boolean autoOpen, boolean alwaysActivate, boolean ignoreModifiers, boolean shouldBorderless, boolean topWhenActive,
+                             boolean minimizeWhenInactive, boolean inactivateWhenOther, int[] geometry, List<Integer> hotkeys,
                              Set<InstanceState> allowedInstanceStates, Set<InstanceState.InWorldState> allowedInWorldStates)
     {
         this.autoOpen = autoOpen;
@@ -39,6 +40,7 @@ public final class ProjectorSettings {
         this.shouldBorderless = shouldBorderless;
         this.topWhenActive = topWhenActive;
         this.minimizeWhenInactive = minimizeWhenInactive;
+        this.inactivateWhenOther = inactivateWhenOther;
         this.geometry = geometry;
         this.hotkeys = hotkeys;
         this.allowedInstanceStates = allowedInstanceStates;

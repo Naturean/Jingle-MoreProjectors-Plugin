@@ -53,6 +53,7 @@ public class EditProjectorDialog extends JDialog {
     private JLabel inWorldStateLabel;
     private JPanel allowedStatesPanel;
     private JPanel GeometryPanel;
+    private JCheckBox inactivateWhenOtherCheckBox;
 
     public boolean cancelled;
 
@@ -63,6 +64,7 @@ public class EditProjectorDialog extends JDialog {
     public boolean shouldBorderless;
     public boolean topWhenActive;
     public boolean minimizeWhenInactive;
+    public boolean inactivateWhenOther;
     public int[] geometry;
     public List<Integer> hotkeys;
 
@@ -79,6 +81,7 @@ public class EditProjectorDialog extends JDialog {
         this.shouldBorderless = projector.settings.shouldBorderless;
         this.topWhenActive = projector.settings.topWhenActive;
         this.minimizeWhenInactive = projector.settings.minimizeWhenInactive;
+        this.inactivateWhenOther = projector.settings.inactivateWhenOther;
         this.geometry = projector.settings.geometry;
         this.hotkeys = projector.settings.hotkeys;
         this.allowedInstanceStates = projector.settings.allowedInstanceStates;
@@ -138,6 +141,7 @@ public class EditProjectorDialog extends JDialog {
         this.borderlessCheckBox.setSelected(this.shouldBorderless);
         this.topCheckBox.setSelected(this.topWhenActive);
         this.minimizeCheckBox.setSelected(this.minimizeWhenInactive);
+        this.inactivateWhenOtherCheckBox.setSelected(this.inactivateWhenOther);
 
         // Hotkey button
         this.setHotkeyButton.setText(Hotkey.formatKeys(this.hotkeys));
@@ -213,6 +217,7 @@ public class EditProjectorDialog extends JDialog {
         this.shouldBorderless = this.borderlessCheckBox.isSelected();
         this.topWhenActive = this.topCheckBox.isSelected();
         this.minimizeWhenInactive = this.minimizeCheckBox.isSelected();
+        this.inactivateWhenOther = this.inactivateWhenOtherCheckBox.isSelected();
 
         this.geometry = new int[]{
                 NumberUtils.toInt(this.projectorPosX.getText(), 0),
@@ -257,7 +262,7 @@ public class EditProjectorDialog extends JDialog {
         OKButton.setText("OK");
         buttonPanel.add(OKButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, -1), null, 0, false));
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(10, 1, new Insets(0, 5, 5, 5), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(11, 1, new Insets(0, 5, 5, 5), -1, -1));
         editPanel.add(mainPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         alwaysActivateCheckBox = new JCheckBox();
         alwaysActivateCheckBox.setText("Always activate");
@@ -344,6 +349,9 @@ public class EditProjectorDialog extends JDialog {
         projectorSizeLabel.setHorizontalTextPosition(11);
         projectorSizeLabel.setText("Size: ");
         sizePanel.add(projectorSizeLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(65, -1), null, 0, false));
+        inactivateWhenOtherCheckBox = new JCheckBox();
+        inactivateWhenOtherCheckBox.setText("Inactivate when different hotkeys are activated");
+        mainPanel.add(inactivateWhenOtherCheckBox, new GridConstraints(10, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

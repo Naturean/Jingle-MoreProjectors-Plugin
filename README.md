@@ -11,6 +11,11 @@ A Jingle plugin allows you to control more OBS projectors with customized config
 
 ## Settings
 
+### Enable
+
+- Enable this projector when checked.
+- If disabled, it just acts like removed.
+
 ### Name
 
 - Just the projector's name, you can change it at any time.
@@ -46,14 +51,17 @@ A Jingle plugin allows you to control more OBS projectors with customized config
 
 ### Geometry
 
-- `Position` is the position of the projector, same with Jingle -> OBS.
-- `Size` is the size of the projector, same with Jingle -> OBS.
+- `Position` is the position of the projector, same with Jingle -> OBS -> Position.
+- `Size` is the size of the projector, same with Jingle -> OBS -> Size.
 
 ### Others
 
 - `Borderless` tells this plugin should this projector's window being borderless on found.
 - `Top projector when active` will top the projector when it is activated.
 - `Minimize projector when inactive` will minimize the projector when it is inactivated.
+- `Inactivate when different hotkeys are activated` will inactivate this projector when different hotkeys are activated.
+  - For example, assume that `G` is the hotkey of this projector, we call it `G-Projector`. Now if we have another `H-Projector`, when you press `H` to activate it, `G-Projector` will be inactivated.
+  - If you want to inactivate all projectors by pressing a hotkey, you can add an "empty projector". Name it any name that is different from the OBS scenes, and add a hotkey unused, then you can press it to inactivate all projectors. This is useful when you change resizing. For example, when changing thin bt to eye measuring, you set projectors on thin bt but no projector on eye measuring. To inactivate all projectors on thin bt, You can add an empty projector that has the same hotkeys as eye measuring.
 
 ## Report
 

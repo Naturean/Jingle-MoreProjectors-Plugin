@@ -6,9 +6,7 @@ import com.sun.jna.platform.win32.Win32VK;
 import xyz.duncanruns.jingle.hotkey.Hotkey;
 import xyz.duncanruns.jingle.util.KeyboardUtil;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static xyz.duncanruns.jingle.util.SleepUtil.sleep;
@@ -64,6 +62,14 @@ public final class ProjectorHotkeyManager {
                         MoreProjectors.logError("Error while running hotkey!", t);
                     }
                 }
+            }
+        }
+    }
+
+    public static void inactivateOtherProjectors(List<Integer> hotkeys) {
+        for (Projector projector: MoreProjectors.options.projectors) {
+            if (projector.settings.inactivateWhenOther && !Objects.equals(projector.settings.hotkeys, hotkeys)) {
+                projector.toggle(false);
             }
         }
     }
