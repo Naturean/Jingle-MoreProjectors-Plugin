@@ -14,15 +14,18 @@ import xyz.duncanruns.jingle.plugin.PluginManager;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 import java.util.Optional;
 
 public class MoreProjectors {
     public static final Path MORE_PROJECTORS_FOLDER_PATH = Jingle.FOLDER.resolve("more-projectors-plugin");
+    public static final Path PLUGINS_FOLDER_PATH = Jingle.FOLDER.resolve("plugins");
     public static final Path OBS_LINK_STATE_PATH = MORE_PROJECTORS_FOLDER_PATH.resolve("obs-link-state");
     public static final Path OBS_SCRIPT_PATH = MORE_PROJECTORS_FOLDER_PATH.resolve("more-projector-obs-link.lua");
 
@@ -61,6 +64,8 @@ public class MoreProjectors {
         registerTick();
         registerExitWorld();
         registerStop();
+
+        MoreProjectorsUpdater.run();
 
         JPanel configGUI = new MoreProjectorsGUI().mainPanel;
         JingleGUI.addPluginTab("More Projectors", configGUI);
@@ -107,6 +112,19 @@ public class MoreProjectors {
             MoreProjectors.log(Level.INFO, logMessage + " more-projector-obs-link.lua");
         } catch (IOException e) {
             MoreProjectors.logError("Failed to write more-projector-obs-link.lua:\n", e);
+        }
+    }
+
+    /**
+     * Get the path of jar file when running as a jar
+     * <p>
+     * Code from <a href="https://github.com/DuncanRuns/Julti/blob/main/src/main/java/xyz/duncanruns/julti/Jingle.java">Julti</a>
+     */
+    public static Path getSourcePath() {
+        try {
+            return Paths.get(MoreProjectors.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
     }
 }
