@@ -131,6 +131,7 @@ public class ProjectorListPanel extends JPanel {
                     .filter(p -> !p.equals(projector))
                     .collect(Collectors.toList())
                 );
+                projector.close();
                 this.reload();
                 ProjectorHotkeyManager.reload();
                 MoreProjectors.options.save();
