@@ -10,7 +10,7 @@ import java.awt.*;
 public class DownloadProgressFrame extends JFrame {
     private final JProgressBar bar;
 
-    public DownloadProgressFrame(Point location) {
+    public DownloadProgressFrame(JFrame owner) {
         this.setLayout(new GridBagLayout());
         JLabel text = new JLabel("Downloading MoreProjectors Plugin...");
         GridBagConstraints gbc = new GridBagConstraints();
@@ -20,10 +20,9 @@ public class DownloadProgressFrame extends JFrame {
         this.bar = new JProgressBar(0, 100);
         this.add(this.bar, gbc);
 
-
         this.setSize(300, 100);
         this.setTitle("MoreProjectors update");
-        this.setLocation(location);
+        this.setLocationRelativeTo(owner);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setVisible(true);

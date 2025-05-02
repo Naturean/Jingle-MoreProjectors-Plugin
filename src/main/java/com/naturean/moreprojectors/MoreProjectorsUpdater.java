@@ -5,13 +5,13 @@ import com.google.gson.JsonObject;
 import com.naturean.moreprojectors.gui.DownloadProgressFrame;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.Level;
+import xyz.duncanruns.jingle.Jingle;
 import xyz.duncanruns.jingle.JingleAppLaunch;
 import xyz.duncanruns.jingle.gui.JingleGUI;
 import xyz.duncanruns.jingle.util.GrabUtil;
 import xyz.duncanruns.jingle.util.PowerShellUtil;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +24,6 @@ import java.nio.file.Paths;
  */
 public class MoreProjectorsUpdater {
     private static String currentVersion;
-
     private static String latestVersion;
     private static String latestDownloadLink;
 
@@ -33,9 +32,9 @@ public class MoreProjectorsUpdater {
             if (tryCheckForUpdates()) {
                 int ans = JOptionPane.showConfirmDialog(
                         JingleGUI.get(),
-                        String.format("A newer version of MoreProjectors Plugin is found! Update now? (v%s -> v%s)", currentVersion, latestVersion),
+                        String.format("A newer version of MoreProjectors Plugin is found!\nUpdate now? (v%s -> v%s)", currentVersion, latestVersion),
                         "MoreProjectors: New Version",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE
                 );
                 if(ans == JOptionPane.YES_OPTION) {
                     tryUpdate();
@@ -62,7 +61,7 @@ public class MoreProjectorsUpdater {
             currentVersion = MoreProjectors.CURRENT_VERSION;
         }
 
-        // if (currentVersion.equals("DEV")) return false;
+        if (currentVersion.equals("DEV")) return false;
 
         try {
             meta = GrabUtil.grabJson("https://raw.githubusercontent.com/Naturean/Jingle-MoreProjectors-Plugin/main/meta.json");
@@ -103,7 +102,8 @@ public class MoreProjectorsUpdater {
         // Use powershell's start-process to start it detached
         Path javaExe = Paths.get(System.getProperty("java.home")).resolve("bin").resolve("javaw.exe");
 
-        String powerCommand = String.format("start-process '%s' '-jar \"%s\" -deleteOldJar \"%s\"'", javaExe, newJarPath, MoreProjectors.getSourcePath());
+        // -deleteOldJar is one of the args of Jingle for deleting specific file
+        String powerCommand = String.format("start-process '%s' '-jar \"%s\" -deleteOldJar \"%s\"'", javaExe, Jingle.getSourcePath(), MoreProjectors.getSourcePath());
         MoreProjectors.log(Level.INFO, "Exiting and running powershell command: " + powerCommand);
 
         PowerShellUtil.execute(powerCommand);
@@ -111,8 +111,7 @@ public class MoreProjectorsUpdater {
     }
 
     private static void downloadWithProgress(String download, Path newJarPath) throws IOException {
-        Point location = JingleGUI.get().getLocation();
-        JProgressBar bar = new DownloadProgressFrame(location).getBar();
+        JProgressBar bar = new DownloadProgressFrame(JingleGUI.get()).getBar();
         bar.setMaximum((int) GrabUtil.getFileSize(download));
         GrabUtil.download(download, newJarPath, bar::setValue, 128);
     }
