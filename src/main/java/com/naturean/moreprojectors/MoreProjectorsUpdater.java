@@ -10,6 +10,7 @@ import xyz.duncanruns.jingle.JingleAppLaunch;
 import xyz.duncanruns.jingle.gui.JingleGUI;
 import xyz.duncanruns.jingle.util.GrabUtil;
 import xyz.duncanruns.jingle.util.PowerShellUtil;
+import xyz.duncanruns.jingle.util.VersionUtil;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -27,7 +28,17 @@ public class MoreProjectorsUpdater {
     private static String latestVersion;
     private static String latestDownloadLink;
 
+    // Version compare
+    private static final int NEWER = 1;
+    private static final int OLDER = -1;
+    // private static final int EQUAL = 0;
+
     public static void run() {
+        new Thread(MoreProjectorsUpdater::runAsync, "more-projectors-updater").start();
+    }
+
+    private static void runAsync() {
+        MoreProjectors.log(Level.DEBUG, "Running updater asynchronously!");
         try {
             if (tryCheckForUpdates()) {
                 int ans = JOptionPane.showConfirmDialog(
@@ -78,7 +89,7 @@ public class MoreProjectorsUpdater {
         latestVersion = meta.get("latest_version").getAsString();
         latestDownloadLink = meta.get("latest_download").getAsString();
 
-        return !latestVersion.equals(currentVersion);
+        return shouldUpdate(currentVersion, latestVersion);
     }
 
     private static void tryUpdate() {
@@ -114,5 +125,29 @@ public class MoreProjectorsUpdater {
         JProgressBar bar = new DownloadProgressFrame(JingleGUI.get()).getBar();
         bar.setMaximum((int) GrabUtil.getFileSize(download));
         GrabUtil.download(download, newJarPath, bar::setValue, 128);
+    }
+
+    private static boolean shouldUpdate(String currentVersion, String latestVersion) {
+        if (currentVersion.equals(latestVersion)) {
+            MoreProjectors.log(Level.INFO, "Running on latest version.");
+            return false;
+        }
+
+        int compare = VersionUtil.tryCompare(
+                VersionUtil.extractVersion(currentVersion),
+                VersionUtil.extractVersion(latestVersion),
+                OLDER
+        );
+
+        if (compare == NEWER) {
+            MoreProjectors.log(Level.INFO, "Current version is newer than latest version!?");
+            return false;
+        }
+
+        // if (compare == EQUAL)
+        // Already checked.
+
+        // if (compare == OLDER)
+        return true;
     }
 }
