@@ -14,6 +14,7 @@ import xyz.duncanruns.jingle.plugin.PluginManager;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -118,11 +119,17 @@ public class MoreProjectors {
     /**
      * Get the path of jar file when running as a jar
      * <p>
-     * Code from <a href="https://github.com/DuncanRuns/Julti/blob/main/src/main/java/xyz/duncanruns/julti/Jingle.java">Julti</a>
+     * Mostly references from <a href="https://github.com/DuncanRuns/Julti/blob/main/src/main/java/xyz/duncanruns/julti/Jingle.java">Julti</a>
      */
     public static Path getSourcePath() {
         try {
-            return Paths.get(MoreProjectors.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            URI uri = MoreProjectors.class.getProtectionDomain().getCodeSource().getLocation().toURI();
+            Path sourcePath = null;
+            if (uri.getScheme().equals("file")) {
+                String jarPath = uri.toString().replace("file:", "");
+                sourcePath = Paths.get(jarPath);
+            }
+            return sourcePath;
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
