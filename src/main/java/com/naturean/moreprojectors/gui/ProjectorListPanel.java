@@ -11,7 +11,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProjectorListPanel extends JPanel {
     private final JFrame owner;
@@ -54,7 +53,7 @@ public class ProjectorListPanel extends JPanel {
 
         List<Projector> projectors;
         synchronized (MoreProjectors.class) {
-            projectors = MoreProjectors.options == null ? Collections.emptyList() : MoreProjectors.options.projectors;
+            projectors = MoreProjectors.options == null ? Collections.emptyList() : MoreProjectors.options.getProjectors();
         }
 
         if(projectors.isEmpty()) {
@@ -105,14 +104,20 @@ public class ProjectorListPanel extends JPanel {
                 dialog.setVisible(true);
                 if(dialog.cancelled) return;
 
-                MoreProjectors.options.projectors = (
-                        MoreProjectors.options.projectors.stream()
-                                .map(p -> p.equals(projector) ? new Projector(dialog.name, p.enable, new ProjectorSettings(
-                                        dialog.autoOpen, dialog.alwaysActivate, dialog.ignoreModifiers, dialog.shouldBorderless,
-                                        dialog.topWhenActive, dialog.minimizeWhenInactive, dialog.inactivateWhenOther,
-                                        dialog.geometry, dialog.hotkeys, dialog.allowedInstanceStates, dialog.allowedInWorldStates
-                                )) : p).collect(Collectors.toList())
+                ProjectorSettings newSettings = new ProjectorSettings(
+                        dialog.autoOpen,
+                        dialog.alwaysActivate,
+                        dialog.ignoreModifiers,
+                        dialog.shouldBorderless,
+                        dialog.topWhenActive,
+                        dialog.minimizeWhenInactive,
+                        dialog.inactivateWhenOther,
+                        dialog.geometry,
+                        dialog.hotkeys,
+                        dialog.allowedInstanceStates,
+                        dialog.allowedInWorldStates
                 );
+                MoreProjectors.options.editProjector(projector, dialog.name, newSettings);
 
                 this.reload();
                 ProjectorHotkeyManager.reload();
@@ -126,11 +131,7 @@ public class ProjectorListPanel extends JPanel {
         JButton removeButton = new JButton("Remove");
         removeButton.addActionListener( a -> {
             synchronized (MoreProjectors.class) {
-                MoreProjectors.options.projectors = (
-                    MoreProjectors.options.projectors.stream()
-                    .filter(p -> !p.equals(projector))
-                    .collect(Collectors.toList())
-                );
+                MoreProjectors.options.removeProjector(projector);
                 projector.close();
                 this.reload();
                 ProjectorHotkeyManager.reload();
@@ -145,12 +146,7 @@ public class ProjectorListPanel extends JPanel {
             boolean isEnable = enableCheckBox.isSelected();
             if (!isEnable) projector.close();
 
-            MoreProjectors.options.projectors = (
-                    MoreProjectors.options.projectors.stream()
-                            .peek(p -> {
-                                if(p.equals(projector)) p.enable = isEnable;
-                            }).collect(Collectors.toList())
-            );
+            MoreProjectors.options.setProjectorEnable(projector, isEnable);
 
             ProjectorHotkeyManager.reload();
             MoreProjectors.options.save();

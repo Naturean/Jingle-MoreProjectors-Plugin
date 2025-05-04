@@ -31,7 +31,7 @@ public class InstanceWatcher {
         this.reset();
 
         Set<OpenedInstanceInfo> currentOpenInstances = InstanceChecker.getAllOpenedInstances();
-        WinDef.HWND mainInstanceHwnd = User32.INSTANCE.GetForegroundWindow();;
+        WinDef.HWND mainInstanceHwnd = User32.INSTANCE.GetForegroundWindow();
 
         for (OpenedInstanceInfo openInstanceInfo: currentOpenInstances) {
             if (Objects.equals(openInstanceInfo.hwnd, mainInstanceHwnd)) {

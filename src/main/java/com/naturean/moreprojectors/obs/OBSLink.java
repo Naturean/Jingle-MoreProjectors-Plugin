@@ -33,7 +33,7 @@ public final class OBSLink {
 
     private static String createOutput() {
         String output = "";
-        for(Projector projector: MoreProjectors.options.projectors) {
+        for(Projector projector: MoreProjectors.options.getProjectors()) {
             long requestProjectorTime = projector.getRequestTime();
             output = String.format("%s%s\n", output, String.join("\t",
                     // Y    Proj Name  Y1234567890

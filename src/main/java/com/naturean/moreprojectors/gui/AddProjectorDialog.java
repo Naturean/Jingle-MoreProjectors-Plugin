@@ -73,7 +73,7 @@ public class AddProjectorDialog extends JDialog {
             return;
         }
 
-        for (Projector projector : MoreProjectors.options.projectors) {
+        for (Projector projector : MoreProjectors.options.getProjectors()) {
             if (Objects.equals(projector.name, this.name)) {
                 JOptionPane.showMessageDialog(null, "Projector \"" + this.name + "\" already exists!");
                 this.nameTextField.setText("");

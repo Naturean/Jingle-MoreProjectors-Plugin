@@ -29,7 +29,7 @@ public final class ProjectorHotkeyManager {
     public static void reload() {
         HOTKEYS.clear();
 
-        for(Projector projector: MoreProjectors.options.projectors) {
+        for(Projector projector: MoreProjectors.options.getProjectors()) {
             addHotkey(projector);
         }
     }
@@ -67,7 +67,7 @@ public final class ProjectorHotkeyManager {
     }
 
     public static void inactivateOtherProjectors(List<Integer> hotkeys) {
-        for (Projector projector: MoreProjectors.options.projectors) {
+        for (Projector projector: MoreProjectors.options.getProjectors()) {
             if (projector.settings.inactivateWhenOther && !Objects.equals(projector.settings.hotkeys, hotkeys)) {
                 projector.toggle(false);
             }
