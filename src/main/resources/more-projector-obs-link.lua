@@ -34,9 +34,8 @@ obs = obslua
 
 more_projectors_dir = os.getenv("UserProfile"):gsub("\\", "/") .. "/.config/Jingle/more-projectors-plugin/"
 
-timers_activated = false
+timer_activated = false
 last_states = {}
-last_projector_request = 'N'
 
 ---- File Functions ----
 
@@ -56,7 +55,7 @@ function read_file_lines(filename)
     return lines
 end
 
-function get_state_file_string()
+function get_state_file_strings()
     local success, result = pcall(read_file_lines, more_projectors_dir .. "obs-link-state")
     if success then
         return result
@@ -66,7 +65,7 @@ end
 
 ---- Misc Functions ----
 
-function split_string(input_string, split_char)
+function string_split(input_string, split_char)
     -- https://www.cnblogs.com/lucktomato/p/15234559.html
     local out = {}
     input_string.gsub(input_string, "[^" .. split_char .. "]+", function (str)
@@ -77,7 +76,7 @@ end
 
 ---- OBS Functions ----
 
-function get_scene(name)
+function get_obs_scene(name)
     local source = obs.obs_get_source_by_name(name)
     if source == nil then
         return nil
@@ -87,8 +86,8 @@ function get_scene(name)
     return scene
 end
 
-function scene_exists(name)
-    return get_scene(name) ~= nil
+function is_scene_exists(name)
+    return get_obs_scene(name) ~= nil
 end
 
 ---- Script Functions ----
@@ -103,39 +102,40 @@ function script_description()
 end
 
 function script_load()
-    last_states = get_state_file_string()
+    last_states = get_state_file_strings()
 end
 
 function script_update(settings)
-    if timers_activated then
+    if timer_activated then
         return
     end
 
-    timers_activated = true
-    obs.timer_add(loop, 20)
+    timer_activated = true
+    obs.timer_add(tick, 20)
 end
 
-function loop()
-    local states = get_state_file_string()
+function tick()
+    local states = get_state_file_strings()
 
     if (states == last_states or states == nil or states == {}) then
         return
     end
 
-    last_states = states
-
     for i, state in pairs(states) do
-        local state_args = split_string(state, '\t')
+        if (state ~= last_states[i]) then
+            local state_args = string_split(state, '\t')
 
-        local shouldOpen = state_args[1]
-        local projector_name = state_args[2]
-        local projector_request = state_args[3]
+            local shouldOpen = state_args[1]
+            local projector_name = state_args[2]
+            local projector_request = state_args[3]
 
-        if shouldOpen == 'Y' and projector_request ~= last_projector_request then
-            last_projector_request = projector_request
-            if projector_request ~= 'N' and scene_exists(projector_name) then
-                obs.obs_frontend_open_projector("Scene", -1, "", projector_name)
+            if shouldOpen == 'Y' then
+                if projector_request ~= 'N' and is_scene_exists(projector_name) then
+                    obs.obs_frontend_open_projector("Scene", -1, "", projector_name)
+                end
             end
         end
     end
+
+    last_states = states
 end
