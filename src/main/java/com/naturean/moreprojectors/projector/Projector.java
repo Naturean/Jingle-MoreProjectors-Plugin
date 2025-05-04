@@ -192,8 +192,8 @@ public final class Projector {
         if (this.hwnd == null) return;
 
         WinUser.WINDOWPLACEMENT windowplacement = new WinUser.WINDOWPLACEMENT();
-        User32.INSTANCE.GetWindowPlacement(this.hwnd, windowplacement);
         windowplacement.length = windowplacement.size();
+
         if (User32.INSTANCE.GetWindowPlacement(this.hwnd, windowplacement).booleanValue()) {
             if (windowplacement.showCmd == WinUser.SW_SHOWMINIMIZED) {
                 windowplacement.showCmd = WinUser.SW_SHOWNOACTIVATE;
