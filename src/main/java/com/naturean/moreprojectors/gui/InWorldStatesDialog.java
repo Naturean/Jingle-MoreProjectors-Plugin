@@ -9,8 +9,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 public class InWorldStatesDialog extends JDialog {
     private JPanel inWorldStatesPanel;
@@ -24,9 +23,9 @@ public class InWorldStatesDialog extends JDialog {
 
     public boolean cancelled = false;
 
-    public Set<InstanceState.InWorldState> allowedInWorldStates = new HashSet<>();
+    public LinkedHashSet<InstanceState.InWorldState> allowedInWorldStates = new LinkedHashSet<>();
 
-    public InWorldStatesDialog(JDialog owner, Set<InstanceState.InWorldState> allowedInWorldStates) {
+    public InWorldStatesDialog(JDialog owner, LinkedHashSet<InstanceState.InWorldState> allowedInWorldStates) {
         super(owner);
 
         $$$setupUI$$$();

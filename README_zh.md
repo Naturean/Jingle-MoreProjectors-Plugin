@@ -35,9 +35,11 @@
 
 - `Always activate（总是激活）`会一直激活投影。
     - 但这仍然受到实例状态的影响，详见后文的`Activate only when（仅在……时激活）`。
-    - 当该选项启用时，热键相关功能会被禁用。
-- `Set hotkey（设置热键）`可以让你设置热键以切换投影的激活状态，与Jingle的热键（Hotkey）类似。
-- `Ignore extra modifier keys（忽略额外修饰键）`告诉热键是否应该忽略如Ctrl、Alt、Shift等修饰键。
+    - 当该选项启用时，`Manage hotkeys`会被禁用。
+- `Manage hotkeys（管理热键）`可以让你设置单个或多个热键以切换投影的激活状态
+  - 点击Hotkey列下的“+”按钮以添加新热键。
+  - 点击Hotkey列下的热键按钮以设置热键，与Jingle的热键（Hotkey）类似。
+- `Ignore Modifiers（忽略修饰键）`告诉热键是否应该忽略如Ctrl、Alt、Shift等修饰键。
 
 ### Activate only when（仅在……时激活）
 

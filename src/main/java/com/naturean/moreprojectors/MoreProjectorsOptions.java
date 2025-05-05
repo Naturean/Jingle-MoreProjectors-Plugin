@@ -1,7 +1,6 @@
 package com.naturean.moreprojectors;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import com.naturean.moreprojectors.projector.Projector;
 import com.naturean.moreprojectors.projector.ProjectorSettings;
 import org.apache.logging.log4j.Level;
@@ -83,7 +82,7 @@ public class MoreProjectorsOptions {
                 MoreProjectors.log(Level.INFO, "Options loaded successfully.");
                 return options;
             } catch (Exception e) {
-                MoreProjectors.logError("Failed to load options.json:", e);
+                return tryLoadOld();
             }
         }
         return (new MoreProjectorsOptions());
@@ -95,5 +94,37 @@ public class MoreProjectorsOptions {
         } catch(Exception e) {
             MoreProjectors.logError("Failed to save options.json:", e);
         }
+    }
+
+    private static MoreProjectorsOptions tryLoadOld() {
+        // try to load options.json with version < 1.2.0
+        try {
+            JsonObject json = FileUtil.readJson(OPTIONS_PATH, JsonElement.class).getAsJsonObject();
+            return convertOldToNew(json);
+        } catch (Exception e) {
+            MoreProjectors.logError("Failed to load options.json:", e);
+        }
+        return (new MoreProjectorsOptions());
+    }
+
+    private static MoreProjectorsOptions convertOldToNew(JsonObject json) {
+        for (JsonElement je : json.getAsJsonObject().getAsJsonArray("projectors")) {
+            JsonObject projector = je.getAsJsonObject();
+
+            boolean ignoreModifiers = projector.getAsJsonObject("settings").remove("ignoreModifiers").getAsBoolean();
+
+            JsonArray oldHotkeys = projector.getAsJsonObject("settings").getAsJsonArray("hotkeys");
+
+            JsonObject hotkeyObj = new JsonObject();
+            hotkeyObj.add("keys", oldHotkeys);
+            hotkeyObj.addProperty("ignoreModifiers", ignoreModifiers);
+
+            JsonArray newHotkeys = new JsonArray();
+            newHotkeys.add(hotkeyObj);
+
+            projector.getAsJsonObject("settings").add("hotkeys", newHotkeys);
+        }
+
+        return GSON.fromJson(json, MoreProjectorsOptions.class);
     }
 }

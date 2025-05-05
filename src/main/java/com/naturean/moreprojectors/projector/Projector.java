@@ -1,7 +1,6 @@
 package com.naturean.moreprojectors.projector;
 
 import com.naturean.moreprojectors.MoreProjectors;
-import com.naturean.moreprojectors.hotkey.ProjectorHotkeyManager;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
@@ -133,7 +132,6 @@ public final class Projector {
     }
 
     public synchronized void toggle() {
-        ProjectorHotkeyManager.inactivateOtherProjectors(this.settings.hotkeys);
         if (this.hwnd == null) return;
 
         if (this.isCorrectState() && (this.settings.alwaysActivate || !this.activated)) {
@@ -144,18 +142,9 @@ public final class Projector {
         }
     }
 
-    public synchronized void toggle(boolean activate) {
+    public synchronized void activate() {
         if (this.hwnd == null) return;
 
-        if (activate) {
-            this.activate();
-        }
-        else {
-            this.inactivate();
-        }
-    }
-
-    private synchronized void activate() {
         this.unminimize();
         if (this.settings.topWhenActive) {
             // HWND_TOP, bring the window to the top
@@ -167,7 +156,9 @@ public final class Projector {
         this.activated = true;
     }
 
-    private synchronized void inactivate() {
+    public synchronized void inactivate() {
+        if (this.hwnd == null) return;
+
         if (this.settings.minimizeWhenInactive) {
             this.minimize();
         }

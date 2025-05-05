@@ -2,7 +2,7 @@ package com.naturean.moreprojectors.instance;
 
 import xyz.duncanruns.jingle.instance.InstanceState;
 
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 public class InstanceStateUtils {
     private InstanceStateUtils() {
@@ -38,7 +38,7 @@ public class InstanceStateUtils {
         return "(error)";
     }
 
-    public static String formatInstanceStates(Set<InstanceState> instanceStates) {
+    public static String formatInstanceStates(LinkedHashSet<InstanceState> instanceStates) {
         StringBuilder sb = new StringBuilder();
         for (InstanceState instanceState : instanceStates) {
             if (sb.length() > 0) {
@@ -49,7 +49,7 @@ public class InstanceStateUtils {
         return sb.toString();
     }
 
-    public static String formatInWorldStates(Set<InstanceState.InWorldState> inWorldStates) {
+    public static String formatInWorldStates(LinkedHashSet<InstanceState.InWorldState> inWorldStates) {
         StringBuilder sb = new StringBuilder();
         for (InstanceState.InWorldState inWorldState : inWorldStates) {
             if (sb.length() > 0) {

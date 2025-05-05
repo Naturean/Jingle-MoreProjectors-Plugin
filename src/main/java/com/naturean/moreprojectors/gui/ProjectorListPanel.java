@@ -2,9 +2,9 @@ package com.naturean.moreprojectors.gui;
 
 import com.naturean.moreprojectors.MoreProjectors;
 import com.naturean.moreprojectors.hotkey.ProjectorHotkeyManager;
+import com.naturean.moreprojectors.hotkey.ProjectorSettingHotkey;
 import com.naturean.moreprojectors.projector.Projector;
 import com.naturean.moreprojectors.projector.ProjectorSettings;
-import xyz.duncanruns.jingle.hotkey.Hotkey;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -67,7 +67,7 @@ public class ProjectorListPanel extends JPanel {
                 JLabel projectorLabel = new JLabel(String.format("%s", projector.name));
                 this.add(projectorLabel, constraints.clone());
                 // Hotkey
-                JLabel hotkeyLabel = new JLabel((projector.settings.ignoreModifiers ? "* " : "") + Hotkey.formatKeys(projector.settings.hotkeys));
+                JLabel hotkeyLabel = new JLabel((ProjectorSettingHotkey.formatHotkeys(projector.settings.hotkeys)));
                 this.add(hotkeyLabel, constraints.clone());
                 // Enable
                 JCheckBox enableCheckBox = new JCheckBox();
@@ -107,7 +107,6 @@ public class ProjectorListPanel extends JPanel {
                 ProjectorSettings newSettings = new ProjectorSettings(
                         dialog.autoOpen,
                         dialog.alwaysActivate,
-                        dialog.ignoreModifiers,
                         dialog.shouldBorderless,
                         dialog.topWhenActive,
                         dialog.minimizeWhenInactive,
