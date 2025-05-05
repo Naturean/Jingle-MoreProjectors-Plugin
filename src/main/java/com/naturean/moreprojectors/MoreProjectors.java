@@ -82,8 +82,9 @@ public class MoreProjectors {
     }
 
     private static void registerStop() {
-        PluginEvents.STOP.register(MoreProjectors.options::stop);
         PluginEvents.STOP.register(() -> running = false);
+        PluginEvents.STOP.register(MoreProjectors.options::stop);
+        PluginEvents.STOP.register(MoreProjectors.options::save);
     }
 
     public static boolean isRunning() {

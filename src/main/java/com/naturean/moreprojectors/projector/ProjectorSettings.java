@@ -1,16 +1,13 @@
 package com.naturean.moreprojectors.projector;
 
+import com.naturean.moreprojectors.hotkey.ProjectorSettingHotkey;
 import xyz.duncanruns.jingle.instance.InstanceState;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 public final class ProjectorSettings {
     public boolean autoOpen = true;
     public boolean alwaysActivate = false;
-    public boolean ignoreModifiers = true;
     public boolean shouldBorderless = true;
     public boolean topWhenActive = true;
     public boolean minimizeWhenInactive = false;
@@ -19,10 +16,10 @@ public final class ProjectorSettings {
     // [x,y,w,h]
     public int[] geometry = new int[]{0, 0, 0, 0};
 
-    public List<Integer> hotkeys = Collections.emptyList();
+    public LinkedHashSet<ProjectorSettingHotkey> hotkeys = new LinkedHashSet<>();
 
-    public Set<InstanceState> allowedInstanceStates = new HashSet<>();
-    public Set<InstanceState.InWorldState> allowedInWorldStates = new HashSet<>();
+    public LinkedHashSet<InstanceState> allowedInstanceStates = new LinkedHashSet<>();
+    public LinkedHashSet<InstanceState.InWorldState> allowedInWorldStates = new LinkedHashSet<>();
 
     public ProjectorSettings() {
         this.allowedInstanceStates.add(InstanceState.INWORLD);
@@ -30,13 +27,12 @@ public final class ProjectorSettings {
         this.allowedInWorldStates.add(InstanceState.InWorldState.PAUSED);
     }
 
-    public ProjectorSettings(boolean autoOpen, boolean alwaysActivate, boolean ignoreModifiers, boolean shouldBorderless, boolean topWhenActive,
-                             boolean minimizeWhenInactive, boolean inactivateWhenOther, int[] geometry, List<Integer> hotkeys,
-                             Set<InstanceState> allowedInstanceStates, Set<InstanceState.InWorldState> allowedInWorldStates)
+    public ProjectorSettings(boolean autoOpen, boolean alwaysActivate, boolean shouldBorderless, boolean topWhenActive,
+                             boolean minimizeWhenInactive, boolean inactivateWhenOther, int[] geometry, LinkedHashSet<ProjectorSettingHotkey> hotkeys,
+                             LinkedHashSet<InstanceState> allowedInstanceStates, LinkedHashSet<InstanceState.InWorldState> allowedInWorldStates)
     {
         this.autoOpen = autoOpen;
         this.alwaysActivate = alwaysActivate;
-        this.ignoreModifiers = ignoreModifiers;
         this.shouldBorderless = shouldBorderless;
         this.topWhenActive = topWhenActive;
         this.minimizeWhenInactive = minimizeWhenInactive;

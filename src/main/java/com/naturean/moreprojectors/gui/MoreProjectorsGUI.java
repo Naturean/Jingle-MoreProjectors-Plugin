@@ -11,7 +11,6 @@ import com.naturean.moreprojectors.projector.ProjectorSettings;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.util.List;
 
 public class MoreProjectorsGUI extends JFrame {
     public JPanel mainPanel;
@@ -39,9 +38,7 @@ public class MoreProjectorsGUI extends JFrame {
 
         synchronized (MoreProjectors.class) {
             Projector newProjector = new Projector(dialog.name, true, new ProjectorSettings());
-            List<Projector> projectors = MoreProjectors.options.projectors;
-            projectors.add(newProjector);
-            MoreProjectors.options.projectors = projectors;
+            MoreProjectors.options.addProjector(newProjector);
         }
 
         this.projectorListPanel.reload();

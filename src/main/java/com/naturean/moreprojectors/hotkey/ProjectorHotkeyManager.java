@@ -18,6 +18,7 @@ public final class ProjectorHotkeyManager {
             65, 66, 67, 68, 70, 71, 72, 73, 76, 78, 80, 81, 83, 84, // A, B, C, D, F, G, H, I, L, N, P, Q, S, T
             49, 50, 51 // 1, 2, 3
     ));
+    private static List<Integer> last_activated = Collections.emptyList();
 
     private ProjectorHotkeyManager() {
     }
@@ -29,20 +30,25 @@ public final class ProjectorHotkeyManager {
     public static void reload() {
         HOTKEYS.clear();
 
-        for(Projector projector: MoreProjectors.options.projectors) {
-            addHotkey(projector);
-        }
-    }
+        Map<ProjectorSettingHotkey, Set<Runnable>> hotkeys = new HashMap<>();
+        for(Projector projector: MoreProjectors.options.getProjectors()) {
+            if (!projector.enable) continue;
+            if (projector.settings.alwaysActivate) {
+                hotkeys.computeIfAbsent(ProjectorSettingHotkey.ALWAYS_ACTIVATE, k -> new HashSet<>()).add(projector::toggle);
+                continue;
+            }
 
-    public static void addHotkey(Projector projector) {
-        if(!projector.enable) {
-            return;
+            for (ProjectorSettingHotkey hotkey : projector.settings.hotkeys) {
+                if (hotkey.getKeys().isEmpty()) continue;
+                hotkeys.computeIfAbsent(hotkey, k -> new HashSet<>()).add(projector::toggle);
+            }
         }
-        HOTKEYS.add(new ProjectorHotkey(
-                Hotkey.of(projector.settings.hotkeys, projector.settings.ignoreModifiers),
-                projector::toggle,
-                projector.settings.alwaysActivate
-        ));
+
+        hotkeys.forEach((k, r) -> HOTKEYS.add(new ProjectorHotkey(
+                Hotkey.of(k.getKeys(), k.isIgnoreModifiers()),
+                r,
+                k == ProjectorSettingHotkey.ALWAYS_ACTIVATE
+        )));
     }
 
     private static void run() {
@@ -51,13 +57,18 @@ public final class ProjectorHotkeyManager {
             boolean f3IsPressed = KeyboardUtil.isPressed(Win32VK.VK_F3.code);
             for(ProjectorHotkey projectorHotkey : HOTKEYS) {
                 if (projectorHotkey.alwaysActivate) {
-                    projectorHotkey.toggle.run();
-                    continue;
+                    projectorHotkey.toggle();
                 }
-                if (projectorHotkey.hotkey.wasPressed()) {
+                else if (projectorHotkey.hotkey.wasPressed()) {
                     if (f3IsPressed && F3_INCOMPATIBLES.contains(projectorHotkey.hotkey.getMainKey())) continue;
                     try {
-                        projectorHotkey.toggle.run();
+                        if (!Objects.equals(last_activated, projectorHotkey.hotkey.getKeys())) {
+                            // to hold on a multi-hotkey projector when switching resizes
+                            inactivateActivatedWithSameKeys(projectorHotkey.hotkey);
+                        }
+                        projectorHotkey.toggle();
+                        inactivateOtherProjectors(projectorHotkey.hotkey);
+                        last_activated = projectorHotkey.hotkey.getKeys();
                     } catch (Throwable t) {
                         MoreProjectors.logError("Error while running hotkey!", t);
                     }
@@ -66,10 +77,28 @@ public final class ProjectorHotkeyManager {
         }
     }
 
-    public static void inactivateOtherProjectors(List<Integer> hotkeys) {
-        for (Projector projector: MoreProjectors.options.projectors) {
-            if (projector.settings.inactivateWhenOther && !Objects.equals(projector.settings.hotkeys, hotkeys)) {
-                projector.toggle(false);
+    private static void inactivateActivatedWithSameKeys(Hotkey hotkey) {
+        for (Projector projector: MoreProjectors.options.getProjectors()) {
+            if (projector.getActivated()) {
+                boolean hasSameHotkey = projector.settings.hotkeys.stream()
+                        .anyMatch(h -> Hotkey.of(h.getKeys(), h.isIgnoreModifiers()).equals(hotkey));
+
+                if (hasSameHotkey) {
+                    projector.inactivate();
+                }
+            }
+        }
+    }
+
+    public static void inactivateOtherProjectors(Hotkey hotkey) {
+        for (Projector projector: MoreProjectors.options.getProjectors()) {
+            if (projector.settings.inactivateWhenOther) {
+                boolean hasSameHotkey = projector.settings.hotkeys.stream()
+                        .anyMatch(h -> Hotkey.of(h.getKeys(), h.isIgnoreModifiers()).equals(hotkey));
+
+                if (!hasSameHotkey) {
+                    projector.inactivate();
+                }
             }
         }
     }

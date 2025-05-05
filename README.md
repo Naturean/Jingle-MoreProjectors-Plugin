@@ -31,13 +31,15 @@ A Jingle plugin allows you to control more OBS projectors with customized config
 - `Open projector automatically` will open your OBS projector automatically.
 - Go to OBS -> Tools -> Scripts -> '+' (plus icon), then add `.config/Jingle/more-projectors-plugin/more-projectors-obs-link.lua` script file to enable auto-open.
 
-### Hotkey
+### Hotkeys
 
 - `Always activate` will activate projector at all time.
     - But this still controlled by instance states, see `Activate only when` below.
-    - Hotkey relatives will be disabled when this is checked.
-- `Set hotkey` let you set hotkey(s) to toggle the projector, just like Jingle -> Hotkey.
-- `Ignore extra modifier keys` tells whether hotkey(s) should ignore modifier keys like (Ctrl, Alt, Shift).
+    - `Manage hotkeys` will be disabled when this is checked.
+- `Manage hotkeys` let you set single or multiple hotkeys to toggle the projector.
+  - Click '+' button in hotkey column to add a new hotkey
+  - Click hotkey button to set the hotkey, just like Jingle -> Hotkey.
+  - `Ignore Modifier` tells whether hotkey(s) should ignore modifier keys like (Ctrl, Alt, Shift).
 
 ### Activate only when
 
