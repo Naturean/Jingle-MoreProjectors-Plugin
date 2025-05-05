@@ -79,7 +79,7 @@ public final class ProjectorHotkeyManager {
 
     private static void inactivateActivatedWithSameKeys(Hotkey hotkey) {
         for (Projector projector: MoreProjectors.options.getProjectors()) {
-            if (projector.getActivated()) {
+            if (projector.getActivated() && !projector.settings.alwaysActivate) {
                 boolean hasSameHotkey = projector.settings.hotkeys.stream()
                         .anyMatch(h -> Hotkey.of(h.getKeys(), h.isIgnoreModifiers()).equals(hotkey));
 
@@ -92,7 +92,7 @@ public final class ProjectorHotkeyManager {
 
     public static void inactivateOtherProjectors(Hotkey hotkey) {
         for (Projector projector: MoreProjectors.options.getProjectors()) {
-            if (projector.settings.inactivateWhenOther) {
+            if (projector.settings.inactivateWhenOther && !projector.settings.alwaysActivate) {
                 boolean hasSameHotkey = projector.settings.hotkeys.stream()
                         .anyMatch(h -> Hotkey.of(h.getKeys(), h.isIgnoreModifiers()).equals(hotkey));
 
