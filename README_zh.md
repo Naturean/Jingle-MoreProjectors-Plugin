@@ -29,7 +29,7 @@
 ### 自动开启
 
 - `Open projector automatically（自动开启投影）`会自动打开你的OBS投影。
-- 点击OBS -> 工具 -> 脚本 -> '+' (加号标志)，然后添加`.config/Jingle/more-projectors-plugin/more-projectors-obs-link.lua`脚本文件以启用“自动开启”功能。
+- 点击OBS -> 工具 -> 脚本 -> '+' (加号标志)，然后添加`%userprofile%/.config/Jingle/more-projectors-plugin/more-projectors-obs-link.lua`脚本文件以启用“自动开启”功能。
 
 ### 热键
 

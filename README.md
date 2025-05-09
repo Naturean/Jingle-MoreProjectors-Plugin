@@ -29,7 +29,7 @@ A Jingle plugin allows you to control more OBS projectors with customized config
 ### Auto-open
 
 - `Open projector automatically` will open your OBS projector automatically.
-- Go to OBS -> Tools -> Scripts -> '+' (plus icon), then add `.config/Jingle/more-projectors-plugin/more-projectors-obs-link.lua` script file to enable auto-open.
+- Go to OBS -> Tools -> Scripts -> '+' (plus icon), then add `%userprofile%/.config/Jingle/more-projectors-plugin/more-projectors-obs-link.lua` script file to enable auto-open.
 
 ### Hotkeys
 
