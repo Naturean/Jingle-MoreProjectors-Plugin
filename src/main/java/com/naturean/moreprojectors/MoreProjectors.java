@@ -50,7 +50,7 @@ public class MoreProjectors {
     public static void logError(String failMessage, Throwable t) { Jingle.logError("(MoreProjectors) " + failMessage, t); }
 
     public static void initialize() {
-        MoreProjectors.log(Level.INFO, "Running MoreProjectors Plugin v" + CURRENT_VERSION + "!");
+        MoreProjectors.log(Level.INFO, "正在运行MoreProjectors插件，版本：v" + CURRENT_VERSION + "！");
 
         running = true;
 
