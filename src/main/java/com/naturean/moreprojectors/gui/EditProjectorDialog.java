@@ -91,7 +91,7 @@ public class EditProjectorDialog extends JDialog {
         // Default button when dialog shows
         this.getRootPane().setDefaultButton(this.OKButton);
 
-        this.setTitle("Edit Projector");
+        this.setTitle("编辑投影");
 
         manageHotkeysButton.addActionListener(e -> EditProjectorDialog.this.onManageHotkeys());
         OKButton.addActionListener(e -> EditProjectorDialog.this.onOK());
@@ -145,7 +145,7 @@ public class EditProjectorDialog extends JDialog {
         }
 
         this.instanceStateButton.setText(InstanceStateUtils.formatInstanceStates(this.allowedInstanceStates));
-        if (this.instanceStateButton.getText().isEmpty()) this.instanceStateButton.setText("None");
+        if (this.instanceStateButton.getText().isEmpty()) this.instanceStateButton.setText("无");
         this.instanceStateButton.addActionListener(e -> {
             synchronized (MoreProjectors.class) {
                 InstanceStatesDialog dialog = new InstanceStatesDialog(this, this.allowedInstanceStates);
@@ -154,7 +154,7 @@ public class EditProjectorDialog extends JDialog {
 
                 this.allowedInstanceStates = dialog.allowedInstanceStates;
                 this.instanceStateButton.setText(InstanceStateUtils.formatInstanceStates(this.allowedInstanceStates));
-                if (this.instanceStateButton.getText().isEmpty()) this.instanceStateButton.setText("None");
+                if (this.instanceStateButton.getText().isEmpty()) this.instanceStateButton.setText("无");
 
                 inWorldStateButton.setEnabled(this.allowedInstanceStates.contains(InstanceState.INWORLD));
 
@@ -164,7 +164,7 @@ public class EditProjectorDialog extends JDialog {
 
         inWorldStateButton.setEnabled(this.allowedInstanceStates.contains(InstanceState.INWORLD));
         this.inWorldStateButton.setText(InstanceStateUtils.formatInWorldStates(this.allowedInWorldStates));
-        if (this.inWorldStateButton.getText().isEmpty()) this.inWorldStateButton.setText("None");
+        if (this.inWorldStateButton.getText().isEmpty()) this.inWorldStateButton.setText("无");
         this.inWorldStateButton.addActionListener(e -> {
             synchronized (MoreProjectors.class) {
                 InWorldStatesDialog dialog = new InWorldStatesDialog(this, this.allowedInWorldStates);
@@ -173,7 +173,7 @@ public class EditProjectorDialog extends JDialog {
 
                 this.allowedInWorldStates = dialog.allowedInWorldStates;
                 this.inWorldStateButton.setText(InstanceStateUtils.formatInWorldStates(this.allowedInWorldStates));
-                if (this.inWorldStateButton.getText().isEmpty()) this.inWorldStateButton.setText("None");
+                if (this.inWorldStateButton.getText().isEmpty()) this.inWorldStateButton.setText("无");
 
                 this.pack();
             }
@@ -238,28 +238,28 @@ public class EditProjectorDialog extends JDialog {
         buttonPanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         editPanel.add(buttonPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, 1, null, null, null, 0, false));
         cancelButton = new JButton();
-        cancelButton.setText("Cancel");
+        cancelButton.setText("取消");
         buttonPanel.add(cancelButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, -1), null, 0, false));
         OKButton = new JButton();
-        OKButton.setText("OK");
+        OKButton.setText("确认");
         buttonPanel.add(OKButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, -1), null, 0, false));
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayoutManager(10, 1, new Insets(0, 5, 5, 5), -1, -1));
         editPanel.add(mainPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         alwaysActivateCheckBox = new JCheckBox();
-        alwaysActivateCheckBox.setText("Always activate");
+        alwaysActivateCheckBox.setText("始终激活");
         mainPanel.add(alwaysActivateCheckBox, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         borderlessCheckBox = new JCheckBox();
-        borderlessCheckBox.setText("Borderless");
+        borderlessCheckBox.setText("无边框");
         mainPanel.add(borderlessCheckBox, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         topCheckBox = new JCheckBox();
-        topCheckBox.setText("Top projector when active");
+        topCheckBox.setText("激活时置顶");
         mainPanel.add(topCheckBox, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         minimizeCheckBox = new JCheckBox();
-        minimizeCheckBox.setText("Minimize projector when inactive");
+        minimizeCheckBox.setText("未激活时最小化");
         mainPanel.add(minimizeCheckBox, new GridConstraints(8, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         autoOpenCheckBox = new JCheckBox();
-        autoOpenCheckBox.setText("Open projector automatically");
+        autoOpenCheckBox.setText("自动开启投影");
         mainPanel.add(autoOpenCheckBox, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         namePanel = new JPanel();
         namePanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -267,12 +267,12 @@ public class EditProjectorDialog extends JDialog {
         nameTextField = new JTextField();
         namePanel.add(nameTextField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         nameLabel = new JLabel();
-        nameLabel.setText("Name");
+        nameLabel.setText("名称");
         namePanel.add(nameLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, new Dimension(65, -1), new Dimension(65, -1), new Dimension(65, -1), 0, false));
         allowedStatesPanel = new JPanel();
         allowedStatesPanel.setLayout(new GridLayoutManager(2, 1, new Insets(5, 5, 5, 5), -1, -1));
         mainPanel.add(allowedStatesPanel, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        allowedStatesPanel.setBorder(BorderFactory.createTitledBorder(null, "Activate only when", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        allowedStatesPanel.setBorder(BorderFactory.createTitledBorder(null, "激活条件", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         instanceStatePanel = new JPanel();
         instanceStatePanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         allowedStatesPanel.add(instanceStatePanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -280,7 +280,7 @@ public class EditProjectorDialog extends JDialog {
         instanceStateButton.setText("");
         instanceStatePanel.add(instanceStateButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         instanceStateLabel = new JLabel();
-        instanceStateLabel.setText("Instance states");
+        instanceStateLabel.setText("实例状态");
         instanceStatePanel.add(instanceStateLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(90, -1), null, 0, false));
         inWorldStatePanel = new JPanel();
         inWorldStatePanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -289,12 +289,12 @@ public class EditProjectorDialog extends JDialog {
         inWorldStateButton.setText("");
         inWorldStatePanel.add(inWorldStateButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         inWorldStateLabel = new JLabel();
-        inWorldStateLabel.setText("In-world states");
+        inWorldStateLabel.setText("世界内状态");
         inWorldStatePanel.add(inWorldStateLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(90, -1), null, 0, false));
         GeometryPanel = new JPanel();
         GeometryPanel.setLayout(new GridLayoutManager(2, 1, new Insets(5, 5, 5, 5), -1, -1));
         mainPanel.add(GeometryPanel, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        GeometryPanel.setBorder(BorderFactory.createTitledBorder(null, "Geometry", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        GeometryPanel.setBorder(BorderFactory.createTitledBorder(null, "窗口几何", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         positionPanel = new JPanel();
         positionPanel.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         GeometryPanel.add(positionPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -304,7 +304,7 @@ public class EditProjectorDialog extends JDialog {
         positionPanel.add(projectorPosX, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         projectorPosLabel = new JLabel();
         projectorPosLabel.setHorizontalAlignment(10);
-        projectorPosLabel.setText("Position:");
+        projectorPosLabel.setText("位置：");
         positionPanel.add(projectorPosLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(65, -1), null, 0, false));
         sizePanel = new JPanel();
         sizePanel.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
@@ -316,13 +316,13 @@ public class EditProjectorDialog extends JDialog {
         projectorSizeLabel = new JLabel();
         projectorSizeLabel.setHorizontalAlignment(10);
         projectorSizeLabel.setHorizontalTextPosition(11);
-        projectorSizeLabel.setText("Size: ");
+        projectorSizeLabel.setText("大小：");
         sizePanel.add(projectorSizeLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(65, -1), null, 0, false));
         inactivateWhenOtherCheckBox = new JCheckBox();
-        inactivateWhenOtherCheckBox.setText("Inactivate when different hotkeys are activated");
+        inactivateWhenOtherCheckBox.setText("不同热键激活时取消激活状态");
         mainPanel.add(inactivateWhenOtherCheckBox, new GridConstraints(9, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         manageHotkeysButton = new JButton();
-        manageHotkeysButton.setText("Manage hotkeys");
+        manageHotkeysButton.setText("管理热键");
         mainPanel.add(manageHotkeysButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 

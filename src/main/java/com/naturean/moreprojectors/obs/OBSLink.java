@@ -26,7 +26,7 @@ public final class OBSLink {
             try {
                 FileUtil.writeString(OUT, output);
             } catch (IOException e) {
-                MoreProjectors.logError("Failed to write obs-link-state:", e);
+                MoreProjectors.logError("无法写入obs-link-state：", e);
             }
         }
     }

@@ -45,7 +45,7 @@ public class InstanceStatesDialog extends JDialog {
         // Default button when dialog shows
         this.getRootPane().setDefaultButton(this.OKButton);
 
-        this.setTitle("Set Instance States");
+        this.setTitle("设置实例状态");
 
         OKButton.addActionListener(e -> InstanceStatesDialog.this.onOK());
         cancelButton.addActionListener(e -> InstanceStatesDialog.this.onCancel());
@@ -99,25 +99,25 @@ public class InstanceStatesDialog extends JDialog {
         selectPanel.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
         instanceStatesPanel.add(selectPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         waitingCheckBox = new JCheckBox();
-        waitingCheckBox.setText("Waiting");
+        waitingCheckBox.setText("等待");
         selectPanel.add(waitingCheckBox, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         titleCheckBox = new JCheckBox();
-        titleCheckBox.setText("Title");
+        titleCheckBox.setText("标题");
         selectPanel.add(titleCheckBox, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         inWorldCheckBox = new JCheckBox();
-        inWorldCheckBox.setText("In-World");
+        inWorldCheckBox.setText("世界内");
         selectPanel.add(inWorldCheckBox, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         wallCheckBox = new JCheckBox();
-        wallCheckBox.setText("Wall");
+        wallCheckBox.setText("墙");
         selectPanel.add(wallCheckBox, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         instanceStatesPanel.add(buttonPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         OKButton = new JButton();
-        OKButton.setText("OK");
+        OKButton.setText("确认");
         buttonPanel.add(OKButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         cancelButton = new JButton();
-        cancelButton.setText("Cancel");
+        cancelButton.setText("取消");
         buttonPanel.add(cancelButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 

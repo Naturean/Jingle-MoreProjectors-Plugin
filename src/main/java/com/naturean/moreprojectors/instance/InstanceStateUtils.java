@@ -11,38 +11,38 @@ public class InstanceStateUtils {
     public static String formatInstanceState(InstanceState instanceState) {
         switch (instanceState) {
             case WAITING:
-                return "waiting";
+                return "等待";
             case TITLE:
-                return "title";
+                return "标题";
             case INWORLD:
-                return "inworld";
+                return "世界内";
             case WALL:
-                return "wall";
+                return "墙";
             case GENERATING:
-                return "generating";
+                return "生成中";
             case PREVIEWING:
-                return "previewing";
+                return "预览中";
         }
-        return "(error)";
+        return "(错误)";
     }
 
     public static String formatInWorldState(InstanceState.InWorldState inWorldState) {
         switch (inWorldState) {
             case UNPAUSED:
-                return "unpaused";
+                return "未暂停";
             case PAUSED:
-                return "paused";
+                return "暂停";
             case GAMESCREENOPEN:
-                return "gamescreenopen";
+                return "游戏界面打开";
         }
-        return "(error)";
+        return "(错误)";
     }
 
     public static String formatInstanceStates(LinkedHashSet<InstanceState> instanceStates) {
         StringBuilder sb = new StringBuilder();
         for (InstanceState instanceState : instanceStates) {
             if (sb.length() > 0) {
-                sb.append(", ");
+                sb.append("、");
             }
             sb.append(formatInstanceState(instanceState));
         }
@@ -53,7 +53,7 @@ public class InstanceStateUtils {
         StringBuilder sb = new StringBuilder();
         for (InstanceState.InWorldState inWorldState : inWorldStates) {
             if (sb.length() > 0) {
-                sb.append(", ");
+                sb.append("、");
             }
             sb.append(formatInWorldState(inWorldState));
         }

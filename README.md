@@ -1,84 +1,82 @@
-# Jingle More Projectors Plugin
+# Jingle More Projectors Plugin（Jingle更多投影插件）
 
-[中文README](https://github.com/Naturean/Jingle-MoreProjectors-Plugin/blob/main/README_zh.md)
+一个能够通过自定义配置来控制OBS投影的Jingle插件。
 
-A Jingle plugin allows you to control more OBS projectors with customized configuration.
+## 如何使用？
 
-## How to use?
+- 前往Release页面下载最新版本的jar文件（中文版为zh_CN）。
+- 将插件jar文件拖放至Jingle的插件文件夹，然后重启Jingle。
+- 在Jingle -> Plugin -> More Projectors页面，你会看到一个添加按钮，用于添加OBS投影。
+- 点击添加按钮。
+- 输入投影名字然后点击添加窗口的添加按钮。
+- 你成功添加了一个投影！现在你可以随意编辑或移除它。
 
-- Go to release page and download the newest jar file.
-- Drag and drop this plugin file (.jar) into Jingle plugin folder and restart it.
-- Go to Jingle -> Plugin -> More Projectors, you can see an add button for you to add an OBS projector.
-- Click the add button.
-- Enter the projector's name and click the add button on the add window.
-- You successfully added a projector! Now you can edit or remove it for you like.
+## 设置
 
-## Settings
+### Enable（启用）
 
-### Enable
+- 勾选时启用该投影。
+- 如果禁用，则与移除的表现相同。
 
-- Enable this projector when checked.
-- If disabled, it just acts like removed.
+### Name（名称）
 
-### Name
+- 就是投影的名称，你可以随时更改。
+- 投影的名称必须与OBS投影相一致，但无需前缀（例如“窗口投影（场景） - ”），只需要其名称。
+- 如果你想启用下面介绍的“自动开启”选项，那么投影必须是一个**场景**。
 
-- Just the projector's name, you can change it at any time.
-- The projector's name must match the OBS projector but without prefix (like "Windowed Projector (Scene) - "), only its name.
-- If you want to enable `Auto-open` below, the projector must be a **scene**.
+### 自动开启
 
-### Auto-open
+- `自动开启投影`会自动打开你的OBS投影。
+- 点击OBS -> 工具 -> 脚本 -> '+' (加号标志)，然后添加`%userprofile%/.config/Jingle/more-projectors-plugin/more-projectors-obs-link.lua`脚本文件以启用“自动开启”功能。
 
-- `Open projector automatically` will open your OBS projector automatically.
-- Go to OBS -> Tools -> Scripts -> '+' (plus icon), then add `.config/Jingle/more-projectors-plugin/more-projectors-obs-link.lua` script file to enable auto-open.
+### 热键
 
-### Hotkeys
+- `始终激活`会一直激活投影。
+  - 但这仍然受到实例状态的影响，详见后文的`激活条件`。
+  - 当该选项启用时，`管理热键`会被禁用。
+- `管理热键`可以让你设置单个或多个热键以切换投影的激活状态
+  - 点击热键列下的“+”按钮以添加新热键。
+  - 点击热键列下的热键按钮以设置热键，与Jingle的热键类似。
+- `忽略修饰键`告诉热键是否应该忽略如Ctrl、Alt、Shift等修饰键。
 
-- `Always activate` will activate projector at all time.
-    - But this still controlled by instance states, see `Activate only when` below.
-    - `Manage hotkeys` will be disabled when this is checked.
-- `Manage hotkeys` let you set single or multiple hotkeys to toggle the projector.
-  - Click '+' button in hotkey column to add a new hotkey
-  - Click hotkey button to set the hotkey, just like Jingle -> Hotkey.
-  - `Ignore Modifier` tells whether hotkey(s) should ignore modifier keys like (Ctrl, Alt, Shift).
+### 激活条件
 
-### Activate only when
+- `实例状态`定义了投影能在什么实例状态下激活。
+  - **等待**：实例未打开或未聚焦。
+  - **标题**：在游戏的标题界面。
+  - **世界内**：正在一个世界内游玩。
+  - **墙**：正在多开墙的界面。
+- `世界内状态`定义了当实例状态为“世界内”时，投影能在世界内的什么状态下激活。
+  - **未暂停**：当游戏未暂停，且没有打开游戏内界面时。
+  - **暂停**：当游戏暂停时（ESC、F3加ESC）。
+  - **游戏界面打开**：当有游戏内界面打开时（例如合成界面）。
+- 默认可激活时的实例状态为“世界内”，世界内状态为“未暂停”和“暂停”（与Jingle的resizing条件相同）。
+- 当所有状态都选中时，投影可在任何时候激活。
+- 当没有选中任何状态时，投影无法被激活。
 
-- `Instance states` defines which instance states can this projector activate.
-    - **Waiting**: the instance is not opened or not focused.
-    - **Title**: at the game title.
-    - **In-World**: playing in a world.
-    - **Wall**: walling.
-- `In-world states` defines when the instance state is "inworld", which in-world states can this projector activate. This will be disabled when instance states not contain in-world.
-    - **Unpaused**: when the game is unpaused, and no in-game screen opened.
-    - **Paused**: when the game is paused (ESC, F3 + ESC).
-    - **Game Screen Open**: when an in-game screen is opened (like crafting menu).
-- Default instance state is inworld, in-world states are unpaused and paused (Same condition with Jingle resizing).
-- When all states are selected, the projector can be activated at any time.
-- When none are selected, the projector will never be activated.
+### Geometry（窗口几何）
 
-### Geometry
+- `位置`是指投影的位置，与Jingle -> OBS -> Position一致。
+- `大小`是指投影的大小，与Jingle -> OBS -> Size一致。
+- 两者的单位都是像素。
 
-- `Position` is the position of the projector, same with Jingle -> OBS -> Position.
-- `Size` is the size of the projector, same with Jingle -> OBS -> Size.
-- The unit of both is pixels.
+### 其他
 
-### Others
+- `无边框`告诉插件是否在找到投影窗口时进行无边框化。
+- `激活时置顶`会在投影激活时将其置顶。
+- `取消激活时最小化`会在投影取消激活时将其最小化。
+- `当不同热键激活时取消激活状态`会在不同热键激活时将取消该投影的激活状态。
+  - 举个例子，假设`G`是该投影的热键，简称为`G-投影`。现在如果我们有另一个`H-投影`，当你按`H`激活它时，`G-投影`将会被停用。
+  - 如果你想通过按某一热键来停用所有投影，那么可以添加一个“空投影”。将其命名为与OBS场景不同的其他名字，然后添加一个未使用的热键，你就可以按热键以停用所有投影。当你在resize的时候会有所用。例如，当你从thin bt（找宝藏时的resize）切换到测眼时，假设你设置了thin bt时的投影但测眼时没有投影。想要停用thin bt时的投影，你可以设置一个与测眼热键一致的空投影。
 
-- `Borderless` tells this plugin should this projector's window being borderless on found.
-- `Top projector when active` will top the projector when it is activated.
-- `Minimize projector when inactive` will minimize the projector when it is inactivated.
-- `Inactivate when different hotkeys are activated` will inactivate this projector when different hotkeys are activated.
-  - For example, assume that `G` is the hotkey of this projector, we call it `G-Projector`. Now if we have another `H-Projector`, when you press `H` to activate it, `G-Projector` will be inactivated.
-  - If you want to inactivate all projectors by pressing a hotkey, you can add an "empty projector". Name it any name that is different from the OBS scenes, and add a hotkey unused, then you can press it to inactivate all projectors. This is useful when you change resizing. For example, when changing thin bt to eye measuring, you set projectors on thin bt but no projector on eye measuring. To inactivate all projectors on thin bt, You can add an empty projector that has the same hotkeys as eye measuring.
+## 反馈
 
-## Feedback
+目前该插件未开发完全，必然有许多的问题。
 
-This plugin is not well-developed for now, and there must be many issues.
+如果你遇到任何问题，请随时在Issues板块下报告。
 
-If you encounter any issue, feel free to report it under issues tab.
+## 特别感谢
 
-## Special Thanks
+该项目很大程度上参考了[Jingle](https://github.com/DuncanRuns/Jingle)和[Jingle-CalcOverlay-Plugin](https://github.com/marin774/Jingle-CalcOverlay-Plugin)。
 
-This project largely references [Jingle](https://github.com/DuncanRuns/Jingle) and [Jingle-CalcOverlay-Plugin](https://github.com/marin774/Jingle-CalcOverlay-Plugin).
-
-As a Java newcomer, reading their source codes helped me a lot.
+作为一名Java萌新，阅读他们的源码给了我很多帮助。

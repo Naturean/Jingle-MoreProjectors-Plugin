@@ -67,8 +67,8 @@ public class HotkeyListPanel extends JPanel {
 
         constraints.gridy = 1;
         constraints.fill = GridBagConstraints.CENTER;
-        this.add(new JLabel("Hotkey"), constraints.clone());
-        this.add(new JLabel("<html>Ignore<br>Modifiers</html>"), constraints.clone());
+        this.add(new JLabel("热键"), constraints.clone());
+        this.add(new JLabel("<html>忽略<br>修饰键</html>"), constraints.clone());
 
         this.revalidate();
         this.repaint();
@@ -79,7 +79,7 @@ public class HotkeyListPanel extends JPanel {
         addButton.addActionListener(e -> {
             synchronized (MoreProjectors.class) {
                 if (!this.hotkeys.add(new ProjectorSettingHotkey())) {
-                    JOptionPane.showMessageDialog(this.owner, "Please set previous keys before adding more!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this.owner, "添加更多热键前请设置上一个热键！", "消息", JOptionPane.INFORMATION_MESSAGE);
                 }
                 this.reload();
                 this.owner.pack();
@@ -106,7 +106,7 @@ public class HotkeyListPanel extends JPanel {
     private JButton getHotkeyButton(ProjectorSettingHotkey hotkey) {
         JButton hotkeyButton = new JButton();
         hotkeyButton.setText(Hotkey.formatKeys(hotkey.getKeys()));
-        if (hotkeyButton.getText().isEmpty()) hotkeyButton.setText("None");
+        if (hotkeyButton.getText().isEmpty()) hotkeyButton.setText("无");
         hotkeyButton.addActionListener(e -> {
             synchronized (this) {
                 hotkeyButton.setText("...");
@@ -116,12 +116,12 @@ public class HotkeyListPanel extends JPanel {
                         hotkey.setKeys(h.getKeys());
                         this.hotkeys.forEach(k -> {
                             if (k != hotkey && Objects.equals(k.getKeys(), hotkey.getKeys())) {
-                                JOptionPane.showMessageDialog(this.owner, "Keys already exists!", "Error", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(this.owner, "热键已存在！", "错误", JOptionPane.ERROR_MESSAGE);
                                 hotkey.setKeys(Collections.emptyList());
                             }
                         });
                         hotkeyButton.setText(Hotkey.formatKeys(hotkey.getKeys()));
-                        if (hotkeyButton.getText().isEmpty()) hotkeyButton.setText("None");
+                        if (hotkeyButton.getText().isEmpty()) hotkeyButton.setText("无");
                         hotkeyButton.setEnabled(true);
                         this.owner.pack();
                     }
@@ -132,7 +132,7 @@ public class HotkeyListPanel extends JPanel {
     }
 
     private JButton getRemoveButton(ProjectorSettingHotkey hotkey) {
-        JButton removeButton = new JButton("Remove");
+        JButton removeButton = new JButton("移除");
         removeButton.addActionListener( e -> {
             synchronized (MoreProjectors.class) {
                 this.hotkeys.removeIf(k -> k.equals(hotkey));

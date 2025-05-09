@@ -38,7 +38,7 @@ public class AddProjectorDialog extends JDialog {
         // Default button when dialog shows
         this.getRootPane().setDefaultButton(this.addButton);
 
-        this.setTitle("Add New Projector");
+        this.setTitle("添加新投影");
 
         addButton.addActionListener(e -> AddProjectorDialog.this.onAdd());
         cancelButton.addActionListener(e -> AddProjectorDialog.this.onCancel());
@@ -68,14 +68,14 @@ public class AddProjectorDialog extends JDialog {
         this.name = this.nameTextField.getText().trim();
 
         if (StringUtils.isBlank(this.name)) {
-            JOptionPane.showMessageDialog(null, "Projector name is blank!");
+            JOptionPane.showMessageDialog(null, "投影名称不能空白！");
             this.nameTextField.setText("");
             return;
         }
 
         for (Projector projector : MoreProjectors.options.getProjectors()) {
             if (Objects.equals(projector.name, this.name)) {
-                JOptionPane.showMessageDialog(null, "Projector \"" + this.name + "\" already exists!");
+                JOptionPane.showMessageDialog(null, "投影“" + this.name + "”已存在！");
                 this.nameTextField.setText("");
                 return;
             }
@@ -100,7 +100,7 @@ public class AddProjectorDialog extends JDialog {
         addPanel = new JPanel();
         addPanel.setLayout(new GridLayoutManager(3, 1, new Insets(5, 10, 10, 10), -1, -1));
         enterNameLabel = new JLabel();
-        enterNameLabel.setText("Enter projector name");
+        enterNameLabel.setText("请输入投影名称");
         addPanel.add(enterNameLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         nameTextField = new JTextField();
         addPanel.add(nameTextField, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
@@ -108,10 +108,10 @@ public class AddProjectorDialog extends JDialog {
         buttonPanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         addPanel.add(buttonPanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         addButton = new JButton();
-        addButton.setText("Add");
+        addButton.setText("添加");
         buttonPanel.add(addButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, -1), null, 0, false));
         cancelButton = new JButton();
-        cancelButton.setText("Cancel");
+        cancelButton.setText("取消");
         buttonPanel.add(cancelButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, -1), null, 0, false));
     }
 

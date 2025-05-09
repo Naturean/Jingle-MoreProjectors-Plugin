@@ -21,7 +21,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Waiting"/>
+              <text value="等待"/>
             </properties>
           </component>
           <component id="67d93" class="javax.swing.JCheckBox" binding="titleCheckBox">
@@ -29,7 +29,7 @@
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Title"/>
+              <text value="标题"/>
             </properties>
           </component>
           <component id="de0b7" class="javax.swing.JCheckBox" binding="inWorldCheckBox">
@@ -37,7 +37,7 @@
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="In-World"/>
+              <text value="世界内"/>
             </properties>
           </component>
           <component id="eadbe" class="javax.swing.JCheckBox" binding="wallCheckBox">
@@ -45,7 +45,7 @@
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Wall"/>
+              <text value="墙"/>
             </properties>
           </component>
         </children>
@@ -63,7 +63,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="OK"/>
+              <text value="确认"/>
             </properties>
           </component>
           <component id="1c0b0" class="javax.swing.JButton" binding="cancelButton" default-binding="true">
@@ -71,7 +71,7 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Cancel"/>
+              <text value="取消"/>
             </properties>
           </component>
         </children>

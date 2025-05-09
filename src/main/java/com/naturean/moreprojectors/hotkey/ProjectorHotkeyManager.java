@@ -70,7 +70,7 @@ public final class ProjectorHotkeyManager {
                         inactivateOtherProjectors(projectorHotkey.hotkey);
                         last_activated = projectorHotkey.hotkey.getKeys();
                     } catch (Throwable t) {
-                        MoreProjectors.logError("Error while running hotkey!", t);
+                        MoreProjectors.logError("运行热键时出错！", t);
                     }
                 }
             }

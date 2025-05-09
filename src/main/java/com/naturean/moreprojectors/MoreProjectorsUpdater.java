@@ -38,13 +38,13 @@ public class MoreProjectorsUpdater {
     }
 
     private static void runAsync() {
-        MoreProjectors.log(Level.DEBUG, "Running updater asynchronously!");
+        MoreProjectors.log(Level.DEBUG, "正在异步运行更新器！");
         try {
             if (tryCheckForUpdates()) {
                 int ans = JOptionPane.showConfirmDialog(
                         JingleGUI.get(),
-                        String.format("A newer version of MoreProjectors Plugin is found!\nUpdate now? (v%s -> v%s)", currentVersion, latestVersion),
-                        "MoreProjectors: New Version",
+                        String.format("发现MoreProjectors插件新版本！\n现在更新？（v%s -> v%s）", currentVersion, latestVersion),
+                        "MoreProjectors: 新版本",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE
                 );
                 if(ans == JOptionPane.YES_OPTION) {
@@ -52,7 +52,7 @@ public class MoreProjectorsUpdater {
                 }
             }
         } catch (Exception e) {
-            MoreProjectors.logError("Unknown error when running updater:\n", e);
+            MoreProjectors.logError("运行更新器时出现未知错误：\n", e);
         }
     }
 
@@ -60,7 +60,7 @@ public class MoreProjectorsUpdater {
         try {
             return checkForUpdates();
         } catch (Exception e) {
-            MoreProjectors.logError("Could not check for updates:\n", e);
+            MoreProjectors.logError("无法检查更新：\n", e);
         }
         return false;
     }
@@ -75,14 +75,14 @@ public class MoreProjectorsUpdater {
         if (currentVersion.equals("DEV")) return false;
 
         try {
-            meta = GrabUtil.grabJson("https://raw.githubusercontent.com/Naturean/Jingle-MoreProjectors-Plugin/main/meta.json");
+            meta = GrabUtil.grabJson("https://raw.githubusercontent.com/Naturean/Jingle-MoreProjectors-Plugin/zh-cn/meta.json");
         } catch (Exception e) {
-            MoreProjectors.logError("Failed to grab update meta:", e);
+            MoreProjectors.logError("抓取更新meta文件失败：", e);
             return false;
         }
 
         if (!meta.has("latest_version") || !meta.has("latest_download")) {
-            MoreProjectors.log(Level.ERROR, "Update meta is invalid, please check meta.json!");
+            MoreProjectors.log(Level.ERROR, "非法更新meta文件，请检查meta.json！");
             return false;
         }
 
@@ -96,7 +96,7 @@ public class MoreProjectorsUpdater {
         try {
             update();
         } catch (Exception e) {
-            MoreProjectors.logError("Could not update:\n", e);
+            MoreProjectors.logError("无法更新：\n", e);
         }
     }
 
@@ -115,7 +115,7 @@ public class MoreProjectorsUpdater {
 
         // -deleteOldJar is one of the args of Jingle for deleting specific file
         String powerCommand = String.format("start-process '%s' '-jar \"%s\" -deleteOldJar \"%s\"'", javaExe, Jingle.getSourcePath(), MoreProjectors.getSourcePath());
-        MoreProjectors.log(Level.INFO, "Exiting and running powershell command: " + powerCommand);
+        MoreProjectors.log(Level.INFO, "退出并运行Powershell指令：" + powerCommand);
 
         PowerShellUtil.execute(powerCommand);
         System.exit(0);
@@ -129,7 +129,7 @@ public class MoreProjectorsUpdater {
 
     private static boolean shouldUpdate(String currentVersion, String latestVersion) {
         if (currentVersion.equals(latestVersion)) {
-            MoreProjectors.log(Level.INFO, "Running on latest version.");
+            MoreProjectors.log(Level.INFO, "正运行于最新版本。");
             return false;
         }
 
@@ -140,7 +140,7 @@ public class MoreProjectorsUpdater {
         );
 
         if (compare == NEWER) {
-            MoreProjectors.log(Level.INFO, "Current version is newer than latest version!?");
+            MoreProjectors.log(Level.INFO, "当前版本比最新版本更新！？");
             return false;
         }
 

@@ -79,7 +79,7 @@ public class InstanceWatcher {
                     this.instanceState = InstanceState.WALL;
             }
         } catch (IOException e) {
-            MoreProjectors.logError("Reading wpstateout.txt failed:\n", e);
+            MoreProjectors.logError("读取wpstateout.txt时出错：\n", e);
         }
     }
 

@@ -57,7 +57,7 @@ public class ProjectorListPanel extends JPanel {
         }
 
         if(projectors.isEmpty()) {
-            this.add(new JLabel("No projectors added!"));
+            this.add(new JLabel("尚未添加投影！"));
         }
         else {
             for(final Projector projector: projectors) {
@@ -87,9 +87,9 @@ public class ProjectorListPanel extends JPanel {
             }
 
             constraints.gridy = 1;
-            this.add(new JLabel("Projector"), constraints.clone());
-            this.add(new JLabel("Hotkey"), constraints.clone());
-            this.add(new JLabel("Enable"), constraints.clone());
+            this.add(new JLabel("投影"), constraints.clone());
+            this.add(new JLabel("热键"), constraints.clone());
+            this.add(new JLabel("启用"), constraints.clone());
         }
 
         this.revalidate();
@@ -97,7 +97,7 @@ public class ProjectorListPanel extends JPanel {
     }
 
     private JButton getEditButton(Projector projector) {
-        JButton editButton = new JButton("Edit");
+        JButton editButton = new JButton("编辑");
         editButton.addActionListener( a -> {
             synchronized (MoreProjectors.class) {
                 EditProjectorDialog dialog = new EditProjectorDialog(this.owner, projector);
@@ -127,7 +127,7 @@ public class ProjectorListPanel extends JPanel {
     }
 
     private JButton getRemoveButton(Projector projector) {
-        JButton removeButton = new JButton("Remove");
+        JButton removeButton = new JButton("移除");
         removeButton.addActionListener( a -> {
             synchronized (MoreProjectors.class) {
                 MoreProjectors.options.removeProjector(projector);

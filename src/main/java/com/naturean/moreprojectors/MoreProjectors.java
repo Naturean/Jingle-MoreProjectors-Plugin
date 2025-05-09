@@ -93,27 +93,27 @@ public class MoreProjectors {
 
     private static void createMoreProjectorsFolder() {
         if(MORE_PROJECTORS_FOLDER_PATH.toFile().mkdirs()) {
-            MoreProjectors.log(Level.INFO, "Folder is created: " + MORE_PROJECTORS_FOLDER_PATH);
+            MoreProjectors.log(Level.INFO, "已创建文件夹：" + MORE_PROJECTORS_FOLDER_PATH);
         }
     }
 
     private static void createObsLinkStateFile() {
         try {
             if (OBS_LINK_STATE_PATH.toFile().createNewFile()) {
-                MoreProjectors.log(Level.INFO, "obs-link-state file is created: " + OBS_LINK_STATE_PATH);
+                MoreProjectors.log(Level.INFO, "已创建obs-link-state文件：" + OBS_LINK_STATE_PATH);
             }
         } catch (Exception e) {
-            MoreProjectors.logError("Failed to create obs-link-state file:\n", e);
+            MoreProjectors.logError("无法创建obs-link-state文件：\n", e);
         }
     }
 
     private static void createObsScriptFile() {
         try {
-            String logMessage = Files.exists(OBS_SCRIPT_PATH) ? "Regenerated" : "Generated";
+            String logMessage = Files.exists(OBS_SCRIPT_PATH) ? "已重新生成" : "已生成";
             Files.copy(Objects.requireNonNull(MoreProjectors.class.getResourceAsStream("/more-projector-obs-link.lua")), OBS_SCRIPT_PATH, StandardCopyOption.REPLACE_EXISTING);
-            MoreProjectors.log(Level.INFO, logMessage + " more-projector-obs-link.lua");
+            MoreProjectors.log(Level.INFO, logMessage + "more-projector-obs-link.lua脚本文件");
         } catch (IOException e) {
-            MoreProjectors.logError("Failed to write more-projector-obs-link.lua:\n", e);
+            MoreProjectors.logError("无法写入more-projector-obs-link.lua：\n", e);
         }
     }
 

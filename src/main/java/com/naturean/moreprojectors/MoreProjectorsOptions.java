@@ -79,7 +79,7 @@ public class MoreProjectorsOptions {
         if(Files.exists(OPTIONS_PATH)) {
             try {
                 MoreProjectorsOptions options = FileUtil.readJson(OPTIONS_PATH, MoreProjectorsOptions.class);
-                MoreProjectors.log(Level.INFO, "Options loaded successfully.");
+                MoreProjectors.log(Level.INFO, "成功加载设置。");
                 return options;
             } catch (Exception e) {
                 return tryLoadOld();
@@ -92,7 +92,7 @@ public class MoreProjectorsOptions {
         try {
             FileUtil.writeString(OPTIONS_PATH, GSON.toJson(this));
         } catch(Exception e) {
-            MoreProjectors.logError("Failed to save options.json:", e);
+            MoreProjectors.logError("无法保存options.json：", e);
         }
     }
 
@@ -102,7 +102,7 @@ public class MoreProjectorsOptions {
             JsonObject json = FileUtil.readJson(OPTIONS_PATH, JsonElement.class).getAsJsonObject();
             return convertOldToNew(json);
         } catch (Exception e) {
-            MoreProjectors.logError("Failed to load options.json:", e);
+            MoreProjectors.logError("无法加载options.json：", e);
         }
         return (new MoreProjectorsOptions());
     }
