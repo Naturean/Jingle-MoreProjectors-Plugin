@@ -75,7 +75,7 @@ public class MoreProjectorsUpdater {
         if (currentVersion.equals("DEV")) return false;
 
         try {
-            meta = GrabUtil.grabJson("https://raw.githubusercontent.com/Naturean/Jingle-MoreProjectors-Plugin/zh-cn/meta.json");
+            meta = GrabUtil.grabJson("https://raw.githubusercontent.com/Naturean/Jingle-MoreProjectors-Plugin/zh_cn/meta.json");
         } catch (Exception e) {
             MoreProjectors.logError("抓取更新meta文件失败：", e);
             return false;

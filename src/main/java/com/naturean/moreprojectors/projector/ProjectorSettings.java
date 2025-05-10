@@ -15,6 +15,8 @@ public final class ProjectorSettings {
 
     // [x,y,w,h]
     public int[] geometry = new int[]{0, 0, 0, 0};
+    // [t,b,l,r]
+    public int[] clipping = new int[]{0, 0, 0, 0};
 
     public LinkedHashSet<ProjectorSettingHotkey> hotkeys = new LinkedHashSet<>();
 
@@ -28,7 +30,7 @@ public final class ProjectorSettings {
     }
 
     public ProjectorSettings(boolean autoOpen, boolean alwaysActivate, boolean shouldBorderless, boolean topWhenActive,
-                             boolean minimizeWhenInactive, boolean inactivateWhenOther, int[] geometry, LinkedHashSet<ProjectorSettingHotkey> hotkeys,
+                             boolean minimizeWhenInactive, boolean inactivateWhenOther, int[] geometry, int[] clipping, LinkedHashSet<ProjectorSettingHotkey> hotkeys,
                              LinkedHashSet<InstanceState> allowedInstanceStates, LinkedHashSet<InstanceState.InWorldState> allowedInWorldStates)
     {
         this.autoOpen = autoOpen;
@@ -38,6 +40,7 @@ public final class ProjectorSettings {
         this.minimizeWhenInactive = minimizeWhenInactive;
         this.inactivateWhenOther = inactivateWhenOther;
         this.geometry = geometry;
+        this.clipping = clipping;
         this.hotkeys = hotkeys;
         this.allowedInstanceStates = allowedInstanceStates;
         this.allowedInWorldStates = allowedInWorldStates;
@@ -45,5 +48,9 @@ public final class ProjectorSettings {
 
     public boolean isGeometryLegal() {
         return (this.geometry[0] >= 0 && this.geometry[1] >= 0 && this.geometry[2] > 0 && this.geometry[3] > 0);
+    }
+
+    public boolean isClippingLegal() {
+        return (this.clipping[0] >= 0 && this.clipping[1] >= 0 && this.clipping[2] >= 0 && this.clipping[3] >= 0);
     }
 }
