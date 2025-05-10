@@ -112,6 +112,7 @@ public class ProjectorListPanel extends JPanel {
                         dialog.minimizeWhenInactive,
                         dialog.inactivateWhenOther,
                         dialog.geometry,
+                        dialog.clipping,
                         dialog.hotkeys,
                         dialog.allowedInstanceStates,
                         dialog.allowedInWorldStates
