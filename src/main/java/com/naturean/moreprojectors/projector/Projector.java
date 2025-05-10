@@ -111,6 +111,7 @@ public final class Projector {
     }
 
     public void applyTransform() {
+        // Clipping cause getWindowRect() to return incorrect value.
         WindowProcessUtils.restoreHwndClipping(this.hwnd);
         if(this.settings.shouldBorderless) {
             WindowStateUtil.setHwndBorderless(this.hwnd);
@@ -157,6 +158,7 @@ public final class Projector {
     }
 
     private void onProjectorFound() {
+        // unminimize first, else transform cannot be applied correctly.
         this.unminimize();
         this.applyTransform();
         this.setZOrder(1);
