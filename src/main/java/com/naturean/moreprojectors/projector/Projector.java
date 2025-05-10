@@ -1,9 +1,12 @@
 package com.naturean.moreprojectors.projector;
 
 import com.naturean.moreprojectors.MoreProjectors;
+import com.naturean.moreprojectors.win.WindowProcessUtils;
 import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.GDI32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
+import org.apache.logging.log4j.Level;
 import xyz.duncanruns.jingle.instance.InstanceState;
 import xyz.duncanruns.jingle.util.PidUtil;
 import xyz.duncanruns.jingle.util.WindowStateUtil;
@@ -24,6 +27,7 @@ public final class Projector {
     // transient for not saving into options.json
     @Nullable
     private transient WinDef.HWND hwnd = null;
+
     private transient boolean activated = false;
 
     private transient long lastCheck = 0;
@@ -47,10 +51,20 @@ public final class Projector {
     public Rectangle getGeometry() {
         if(!this.settings.isGeometryLegal()) {
             Rectangle rect = new Rectangle(WindowStateUtil.getHwndRectangle(this.hwnd));
+
             this.settings.geometry[0] = rect.x;
             this.settings.geometry[1] = rect.y;
             this.settings.geometry[2] = rect.width;
             this.settings.geometry[3] = rect.height;
+
+            if (Objects.equals(rect, WindowProcessUtils.INVALID_RECTANGLE)) {
+                MoreProjectors.log(Level.WARN, "Got invalid rectangle for projector" + this.name + "!");
+                this.settings.geometry[0] = 0;
+                this.settings.geometry[1] = 0;
+            }
+
+            MoreProjectors.options.save();
+
             return rect;
         }
         return new Rectangle(
@@ -61,11 +75,48 @@ public final class Projector {
         );
     }
 
+    public WinDef.HRGN getClipping() {
+        if (!this.settings.isClippingLegal()) {
+            this.settings.clipping[0] = Math.max(this.settings.clipping[0], 0);
+            this.settings.clipping[1] = Math.max(this.settings.clipping[1], 0);
+            this.settings.clipping[2] = Math.max(this.settings.clipping[2], 0);
+            this.settings.clipping[3] = Math.max(this.settings.clipping[3], 0);
+        }
+
+        int windowWidth = this.settings.geometry[2];
+        int windowHeight = this.settings.geometry[3];
+
+        int newTop = this.settings.clipping[0];
+        int newBottom = windowHeight - this.settings.clipping[1];
+        int newLeft = this.settings.clipping[2];
+        int newRight = windowWidth - this.settings.clipping[3];
+
+        if (newRight <= newLeft || newBottom <= newTop) {
+            MoreProjectors.log(Level.WARN, "Invalid clipping area for projector" + this.name + "!");
+
+            newTop = 0;
+            newBottom = windowHeight;
+            newLeft = 0;
+            newRight = windowWidth;
+
+            this.settings.clipping[0] = 0;
+            this.settings.clipping[1] = 0;
+            this.settings.clipping[2] = 0;
+            this.settings.clipping[3] = 0;
+        }
+
+        MoreProjectors.options.save();
+
+        return GDI32.INSTANCE.CreateRectRgn(newLeft, newTop, newRight, newBottom);
+    }
+
     public void applyTransform() {
+        WindowProcessUtils.restoreHwndClipping(this.hwnd);
         if(this.settings.shouldBorderless) {
             WindowStateUtil.setHwndBorderless(this.hwnd);
         }
-        WindowStateUtil.setHwndRectangle(this.hwnd, getGeometry());
+        WindowStateUtil.setHwndRectangle(this.hwnd, this.getGeometry());
+        WindowProcessUtils.clipHwndRectangle(this.hwnd, this.getClipping());
     }
 
     public synchronized void tick() {
@@ -106,6 +157,7 @@ public final class Projector {
     }
 
     private void onProjectorFound() {
+        this.unminimize();
         this.applyTransform();
         this.setZOrder(1);
         this.request = -1L;

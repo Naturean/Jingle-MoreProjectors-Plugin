@@ -62,6 +62,12 @@ A Jingle plugin allows you to control more OBS projectors with customized config
 - `Size` is the size of the projector, same with Jingle -> OBS -> Size.
 - The unit of both is pixels.
 
+### Clipping
+
+- Clipping provides a way for you to clip the projector window.
+- `Top (Bottom, Left, Right)` indicates how many pixels need to be clipped from the top (bottom, left, right) edges, respectively.
+- If you don't want to see the black border of the window, this will be very useful.
+
 ### Others
 
 - `Borderless` tells this plugin should this projector's window being borderless on found.

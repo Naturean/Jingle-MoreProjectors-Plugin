@@ -50,6 +50,17 @@ public class EditProjectorDialog extends JDialog {
     private JPanel allowedStatesPanel;
     private JPanel GeometryPanel;
     private JCheckBox inactivateWhenOtherCheckBox;
+    private JTextField bottomClipTextField;
+    private JTextField topClipTextField;
+    private JTextField rightClipTextField;
+    private JTextField leftClipTextField;
+    private JPanel clippingPanel;
+    private JPanel clippingTBPanel;
+    private JPanel clippingLRPanel;
+    private JLabel bottomClipLabel;
+    private JLabel topClipLabel;
+    private JLabel leftClipLabel;
+    private JLabel rightClipLabel;
 
     public boolean cancelled;
 
@@ -61,6 +72,7 @@ public class EditProjectorDialog extends JDialog {
     public boolean minimizeWhenInactive;
     public boolean inactivateWhenOther;
     public int[] geometry;
+    public int[] clipping;
     public LinkedHashSet<ProjectorSettingHotkey> hotkeys;
 
     public LinkedHashSet<InstanceState> allowedInstanceStates;
@@ -77,6 +89,7 @@ public class EditProjectorDialog extends JDialog {
         this.minimizeWhenInactive = projector.settings.minimizeWhenInactive;
         this.inactivateWhenOther = projector.settings.inactivateWhenOther;
         this.geometry = projector.settings.geometry;
+        this.clipping = projector.settings.clipping;
         this.hotkeys = projector.settings.hotkeys;
         this.allowedInstanceStates = projector.settings.allowedInstanceStates;
         this.allowedInWorldStates = projector.settings.allowedInWorldStates;
@@ -93,10 +106,10 @@ public class EditProjectorDialog extends JDialog {
 
         this.setTitle("Edit Projector");
 
-        manageHotkeysButton.addActionListener(e -> EditProjectorDialog.this.onManageHotkeys());
-        OKButton.addActionListener(e -> EditProjectorDialog.this.onOK());
-        cancelButton.addActionListener(e -> EditProjectorDialog.this.onCancel());
-        alwaysActivateCheckBox.addActionListener(e -> EditProjectorDialog.this.onAlwaysActivateCheck());
+        this.manageHotkeysButton.addActionListener(e -> EditProjectorDialog.this.onManageHotkeys());
+        this.OKButton.addActionListener(e -> EditProjectorDialog.this.onOK());
+        this.cancelButton.addActionListener(e -> EditProjectorDialog.this.onCancel());
+        this.alwaysActivateCheckBox.addActionListener(e -> EditProjectorDialog.this.onAlwaysActivateCheck());
 
         KeyAdapter onlyDigit = new KeyAdapter() {
             @Override
@@ -107,10 +120,15 @@ public class EditProjectorDialog extends JDialog {
                 }
             }
         };
-        projectorPosX.addKeyListener(onlyDigit);
-        projectorPosY.addKeyListener(onlyDigit);
-        projectorSizeW.addKeyListener(onlyDigit);
-        projectorSizeH.addKeyListener(onlyDigit);
+        this.projectorPosX.addKeyListener(onlyDigit);
+        this.projectorPosY.addKeyListener(onlyDigit);
+        this.projectorSizeW.addKeyListener(onlyDigit);
+        this.projectorSizeH.addKeyListener(onlyDigit);
+        this.projectorPosX.addKeyListener(onlyDigit);
+        this.projectorPosY.addKeyListener(onlyDigit);
+        this.projectorSizeW.addKeyListener(onlyDigit);
+        this.projectorSizeH.addKeyListener(onlyDigit);
+
 
         // Click cross icon for cancel.
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -142,6 +160,13 @@ public class EditProjectorDialog extends JDialog {
             this.projectorPosY.setText(String.valueOf(geometry[1]));
             this.projectorSizeW.setText(String.valueOf(geometry[2]));
             this.projectorSizeH.setText(String.valueOf(geometry[3]));
+        }
+
+        if (clipping != null && clipping.length != 0) {
+            this.topClipTextField.setText(String.valueOf(clipping[0]));
+            this.bottomClipTextField.setText(String.valueOf(clipping[1]));
+            this.leftClipTextField.setText(String.valueOf(clipping[2]));
+            this.rightClipTextField.setText(String.valueOf(clipping[3]));
         }
 
         this.instanceStateButton.setText(InstanceStateUtils.formatInstanceStates(this.allowedInstanceStates));
@@ -212,6 +237,13 @@ public class EditProjectorDialog extends JDialog {
                 NumberUtils.toInt(this.projectorSizeH.getText(), 0)
         };
 
+        this.clipping = new int[]{
+                NumberUtils.toInt(this.topClipTextField.getText(), 0),
+                NumberUtils.toInt(this.bottomClipTextField.getText(), 0),
+                NumberUtils.toInt(this.leftClipTextField.getText(), 0),
+                NumberUtils.toInt(this.rightClipTextField.getText(), 0)
+        };
+
         this.dispose();
     }
 
@@ -243,21 +275,24 @@ public class EditProjectorDialog extends JDialog {
         OKButton = new JButton();
         OKButton.setText("OK");
         buttonPanel.add(OKButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, -1), null, 0, false));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        editPanel.add(scrollPane1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        scrollPane1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(10, 1, new Insets(0, 5, 5, 5), -1, -1));
-        editPanel.add(mainPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        mainPanel.setLayout(new GridLayoutManager(11, 1, new Insets(0, 5, 5, 5), -1, -1));
+        scrollPane1.setViewportView(mainPanel);
         alwaysActivateCheckBox = new JCheckBox();
         alwaysActivateCheckBox.setText("Always activate");
         mainPanel.add(alwaysActivateCheckBox, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         borderlessCheckBox = new JCheckBox();
         borderlessCheckBox.setText("Borderless");
-        mainPanel.add(borderlessCheckBox, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(borderlessCheckBox, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         topCheckBox = new JCheckBox();
         topCheckBox.setText("Top projector when active");
-        mainPanel.add(topCheckBox, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(topCheckBox, new GridConstraints(8, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         minimizeCheckBox = new JCheckBox();
         minimizeCheckBox.setText("Minimize projector when inactive");
-        mainPanel.add(minimizeCheckBox, new GridConstraints(8, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(minimizeCheckBox, new GridConstraints(9, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         autoOpenCheckBox = new JCheckBox();
         autoOpenCheckBox.setText("Open projector automatically");
         mainPanel.add(autoOpenCheckBox, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -320,10 +355,40 @@ public class EditProjectorDialog extends JDialog {
         sizePanel.add(projectorSizeLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(65, -1), null, 0, false));
         inactivateWhenOtherCheckBox = new JCheckBox();
         inactivateWhenOtherCheckBox.setText("Inactivate when different hotkeys are activated");
-        mainPanel.add(inactivateWhenOtherCheckBox, new GridConstraints(9, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(inactivateWhenOtherCheckBox, new GridConstraints(10, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         manageHotkeysButton = new JButton();
         manageHotkeysButton.setText("Manage hotkeys");
         mainPanel.add(manageHotkeysButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        clippingPanel = new JPanel();
+        clippingPanel.setLayout(new GridLayoutManager(2, 1, new Insets(5, 5, 5, 5), -1, -1));
+        mainPanel.add(clippingPanel, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        clippingPanel.setBorder(BorderFactory.createTitledBorder(null, "Clipping", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        clippingTBPanel = new JPanel();
+        clippingTBPanel.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
+        clippingPanel.add(clippingTBPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        bottomClipTextField = new JTextField();
+        clippingTBPanel.add(bottomClipTextField, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        topClipTextField = new JTextField();
+        clippingTBPanel.add(topClipTextField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        bottomClipLabel = new JLabel();
+        bottomClipLabel.setText("Bottom:");
+        clippingTBPanel.add(bottomClipLabel, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(48, -1), null, 0, false));
+        topClipLabel = new JLabel();
+        topClipLabel.setText("Top:");
+        clippingTBPanel.add(topClipLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(48, -1), null, 0, false));
+        clippingLRPanel = new JPanel();
+        clippingLRPanel.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
+        clippingPanel.add(clippingLRPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        rightClipTextField = new JTextField();
+        clippingLRPanel.add(rightClipTextField, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        leftClipTextField = new JTextField();
+        clippingLRPanel.add(leftClipTextField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        rightClipLabel = new JLabel();
+        rightClipLabel.setText("Right:");
+        clippingLRPanel.add(rightClipLabel, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(48, -1), null, 0, false));
+        leftClipLabel = new JLabel();
+        leftClipLabel.setText("Left:");
+        clippingLRPanel.add(leftClipLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(48, -1), null, 0, false));
     }
 
     /**
