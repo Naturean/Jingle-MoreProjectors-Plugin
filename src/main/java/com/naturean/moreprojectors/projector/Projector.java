@@ -260,11 +260,11 @@ public final class Projector {
 
     private boolean matchesWindow(WinDef.HWND Hwnd) {
         final Pattern OBS_EXECUTABLE_PATTERN = Pattern.compile("^.+[/\\\\]obs\\d\\d.exe$");
-        return this.matchesTitle(WindowTitleUtil.getHwndTitle(Hwnd)) && OBS_EXECUTABLE_PATTERN.matcher(PidUtil.getProcessExecutable(PidUtil.getPidFromHwnd(hwnd))).matches();
+        return this.matchesTitle(WindowTitleUtil.getHwndTitle(Hwnd)) && OBS_EXECUTABLE_PATTERN.matcher(PidUtil.getProcessExecutable(PidUtil.getPidFromHwnd(Hwnd))).matches();
     }
 
     private boolean matchesTitle(String title) {
-        String regex = "^.* - " + this.name.replaceAll("([^a-zA-Z0-9 ])", "\\\\$1") + '$';
+        String regex = "^.+ - .*" + this.name.replaceAll("([^a-zA-Z0-9 ])", "\\\\$1") + '$';
         return Pattern.compile(regex).matcher(title).matches();
     }
 
