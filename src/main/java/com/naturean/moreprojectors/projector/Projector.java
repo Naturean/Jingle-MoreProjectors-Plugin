@@ -2,6 +2,7 @@ package com.naturean.moreprojectors.projector;
 
 import com.naturean.moreprojectors.MoreProjectors;
 import com.naturean.moreprojectors.win.WindowProcessUtils;
+import com.naturean.moreprojectors.win.WindowUtils;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.GDI32;
 import com.sun.jna.platform.win32.WinDef;
@@ -10,7 +11,6 @@ import org.apache.logging.log4j.Level;
 import xyz.duncanruns.jingle.instance.InstanceState;
 import xyz.duncanruns.jingle.util.PidUtil;
 import xyz.duncanruns.jingle.util.WindowStateUtil;
-import xyz.duncanruns.jingle.util.WindowTitleUtil;
 import xyz.duncanruns.jingle.win32.User32;
 import xyz.duncanruns.jingle.win32.Win32Con;
 
@@ -260,7 +260,7 @@ public final class Projector {
 
     private boolean matchesWindow(WinDef.HWND Hwnd) {
         final Pattern OBS_EXECUTABLE_PATTERN = Pattern.compile("^.+[/\\\\]obs\\d\\d.exe$");
-        return this.matchesTitle(WindowTitleUtil.getHwndTitle(Hwnd)) && OBS_EXECUTABLE_PATTERN.matcher(PidUtil.getProcessExecutable(PidUtil.getPidFromHwnd(Hwnd))).matches();
+        return this.matchesTitle(WindowUtils.getHwndTitle(Hwnd)) && OBS_EXECUTABLE_PATTERN.matcher(PidUtil.getProcessExecutable(PidUtil.getPidFromHwnd(Hwnd))).matches();
     }
 
     private boolean matchesTitle(String title) {
