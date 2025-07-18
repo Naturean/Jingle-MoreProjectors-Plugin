@@ -264,7 +264,9 @@ public final class Projector {
     }
 
     private boolean matchesTitle(String title) {
-        String regex = "^.+ - .*" + this.name.replaceAll("([^a-zA-Z0-9 ])", "\\\\$1") + '$';
+        // Old: Scene Projector - name
+        // New: Projector - Scene: name
+        String regex = "^.+ - (.*?(?:^|[^：:])([：:])(?![：:])\\s?)?" + this.name.replaceAll("([^a-zA-Z0-9 ])", "\\\\$1") + '$';
         return Pattern.compile(regex).matcher(title).matches();
     }
 
