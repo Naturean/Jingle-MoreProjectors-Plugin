@@ -32,7 +32,10 @@ public class I18n {
                 return;
             }
 
-            MESSAGES.load(new InputStreamReader(input, StandardCharsets.UTF_8));
+            try (InputStreamReader reader = new InputStreamReader(input, StandardCharsets.UTF_8)) {
+                MESSAGES.load(reader);
+            }
+
             MoreProjectors.log(Level.INFO, "Loaded language properties");
         } catch (IOException e) {
             MoreProjectors.logError("Failed to load language file: " + resourcePath, e);
