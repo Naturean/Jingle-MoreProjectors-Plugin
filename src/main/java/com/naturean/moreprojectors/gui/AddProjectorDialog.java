@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.naturean.moreprojectors.MoreProjectors;
 import com.naturean.moreprojectors.projector.Projector;
+import com.naturean.moreprojectors.util.I18n;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
@@ -38,7 +39,7 @@ public class AddProjectorDialog extends JDialog {
         // Default button when dialog shows
         this.getRootPane().setDefaultButton(this.addButton);
 
-        this.setTitle("Add New Projector");
+        this.setTitle(I18n.get("gui.title.add"));
 
         addButton.addActionListener(e -> AddProjectorDialog.this.onAdd());
         cancelButton.addActionListener(e -> AddProjectorDialog.this.onCancel());
@@ -62,20 +63,29 @@ public class AddProjectorDialog extends JDialog {
 
         // Set location at the center of owner
         this.setLocationRelativeTo(owner);
+
+        // set i18n text
+        updateUIText();
+    }
+    
+    private void updateUIText() {
+        this.enterNameLabel.setText(I18n.get("gui.message.enter.name"));
+        this.addButton.setText(I18n.get("gui.button.add"));
+        this.cancelButton.setText(I18n.get("gui.button.cancel"));
     }
 
     private void onAdd() {
         this.name = this.nameTextField.getText().trim();
 
         if (StringUtils.isBlank(this.name)) {
-            JOptionPane.showMessageDialog(null, "Projector name is blank!");
+            JOptionPane.showMessageDialog(null, I18n.get("gui.message.name.blank"));
             this.nameTextField.setText("");
             return;
         }
 
         for (Projector projector : MoreProjectors.options.getProjectors()) {
             if (Objects.equals(projector.name, this.name)) {
-                JOptionPane.showMessageDialog(null, "Projector \"" + this.name + "\" already exists!");
+                JOptionPane.showMessageDialog(null, I18n.format("gui.message.name.exists", this.name));
                 this.nameTextField.setText("");
                 return;
             }

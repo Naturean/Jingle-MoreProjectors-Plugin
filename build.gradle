@@ -24,7 +24,7 @@ compileJava {
 
 dependencies {
     // Jingle: https://jitpack.io/#DuncanRuns/Jingle/
-    implementation 'com.github.DuncanRuns:Jingle:v1.2.0'
+    implementation 'com.github.DuncanRuns:Jingle:v1.3.0'
 }
 
 group = project.plugin_group
@@ -42,23 +42,81 @@ processResources {
     filesMatching("jingle.plugin.json") {
         expand "version": version
     }
-}
 
-jar {
-    manifest {
-        attributes(
-                'Implementation-Version': version
-        )
-    }
+    // Exclude language files
+    // Comment it out if you are on development.
+    // TODO: probably use a better way
+    exclude('lang/**')
 }
 
 shadowJar {
     configurations = [project.configurations.shadow]
 }
 
-// For testing: https://github.com/marin774/Jingle-CalcOverlay-Plugin/blob/main/build.gradle#L65
-var jinglePluginsFolderPath = "${System.getProperty('user.home')}/.config/Jingle/plugins"
-tasks.register('copyJar', Copy) {
-    from shadowJar
-    into jinglePluginsFolderPath
+// i18n
+def supportedLanguages = ['en_US', 'zh_CN']
+def buildDir = layout.buildDirectory.get().asFile
+
+// Build tasks for each language
+supportedLanguages.each { lang ->
+    tasks.register("build${lang.capitalize().replace('_', '')}", Jar) {
+        group = 'build'
+        description = "Build ${lang} version"
+
+        if (lang == 'en_US') {
+            archiveFileName = "${archivesBaseName}-${version}.jar"
+        } else {
+            archiveFileName = "${archivesBaseName}-${version}+${lang}.jar"
+        }
+
+        manifest {
+            attributes(
+                'Implementation-Version': version
+            )
+        }
+
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+        from sourceSets.main.output
+
+        from("src/main/resources/lang/${lang}.properties") {
+            rename { "language.properties" }
+        }
+
+        dependsOn classes
+    }
+}
+
+tasks.register('buildAll') {
+    group = 'build'
+    description = 'Build all language versions'
+    dependsOn supportedLanguages.collect { lang ->
+        tasks.named("build${lang.capitalize().replace('_', '')}")
+    }
+}
+
+// Default build task -> English
+tasks.named('jar') {
+    // Disable original jar task
+    enabled = false
+    dependsOn 'buildEnUS'
+}
+
+supportedLanguages.each { lang ->
+    tasks.register("copyJar${lang.capitalize().replace('_', '')}", Copy) {
+        group = 'build'
+        description = "Copy ${lang} version to Jingle plugins folder"
+
+        dependsOn "build${lang.capitalize().replace('_', '')}"
+
+        def classifier = lang == 'en_US' ? '' : "+${lang}"
+        def jarName = "${archivesBaseName}-${version}${classifier}.jar"
+
+        from "${buildDir}/libs/${jarName}"
+        into "${System.getProperty('user.home')}/.config/Jingle/plugins"
+
+        doLast {
+            println "Copied ${lang} version to plugins folder"
+        }
+    }
 }

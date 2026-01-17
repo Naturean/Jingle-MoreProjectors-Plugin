@@ -5,6 +5,7 @@ import com.naturean.moreprojectors.hotkey.ProjectorHotkeyManager;
 import com.naturean.moreprojectors.hotkey.ProjectorSettingHotkey;
 import com.naturean.moreprojectors.projector.Projector;
 import com.naturean.moreprojectors.projector.ProjectorSettings;
+import com.naturean.moreprojectors.util.I18n;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -57,7 +58,7 @@ public class ProjectorListPanel extends JPanel {
         }
 
         if(projectors.isEmpty()) {
-            this.add(new JLabel("No projectors added!"));
+            this.add(new JLabel(I18n.get("gui.message.no.projectors")));
         }
         else {
             for(final Projector projector: projectors) {
@@ -87,9 +88,9 @@ public class ProjectorListPanel extends JPanel {
             }
 
             constraints.gridy = 1;
-            this.add(new JLabel("Projector"), constraints.clone());
-            this.add(new JLabel("Hotkey"), constraints.clone());
-            this.add(new JLabel("Enable"), constraints.clone());
+            this.add(new JLabel(I18n.get("gui.label.projector")), constraints.clone());
+            this.add(new JLabel(I18n.get("gui.label.hotkeys")), constraints.clone());
+            this.add(new JLabel(I18n.get("gui.label.enable")), constraints.clone());
         }
 
         this.revalidate();
@@ -97,7 +98,7 @@ public class ProjectorListPanel extends JPanel {
     }
 
     private JButton getEditButton(Projector projector) {
-        JButton editButton = new JButton("Edit");
+        JButton editButton = new JButton(I18n.get("gui.button.edit"));
         editButton.addActionListener( a -> {
             synchronized (MoreProjectors.class) {
                 EditProjectorDialog dialog = new EditProjectorDialog(this.owner, projector);
@@ -128,7 +129,7 @@ public class ProjectorListPanel extends JPanel {
     }
 
     private JButton getRemoveButton(Projector projector) {
-        JButton removeButton = new JButton("Remove");
+        JButton removeButton = new JButton(I18n.get("gui.button.remove"));
         removeButton.addActionListener( a -> {
             synchronized (MoreProjectors.class) {
                 MoreProjectors.options.removeProjector(projector);

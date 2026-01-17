@@ -1,5 +1,6 @@
 package com.naturean.moreprojectors.instance;
 
+import com.naturean.moreprojectors.util.I18n;
 import xyz.duncanruns.jingle.instance.InstanceState;
 
 import java.util.LinkedHashSet;
@@ -11,31 +12,31 @@ public class InstanceStateUtils {
     public static String formatInstanceState(InstanceState instanceState) {
         switch (instanceState) {
             case WAITING:
-                return "waiting";
+                return I18n.get("format.instance.state.waiting");
             case TITLE:
-                return "title";
+                return I18n.get("format.instance.state.title");
             case INWORLD:
-                return "inworld";
+                return I18n.get("format.instance.state.inworld");
             case WALL:
-                return "wall";
+                return I18n.get("format.instance.state.wall");
             case GENERATING:
-                return "generating";
+                return I18n.get("format.instance.state.generating");
             case PREVIEWING:
-                return "previewing";
+                return I18n.get("format.instance.state.previewing");
         }
-        return "(error)";
+        return I18n.get("format.error");
     }
 
     public static String formatInWorldState(InstanceState.InWorldState inWorldState) {
         switch (inWorldState) {
             case UNPAUSED:
-                return "unpaused";
+                return I18n.get("format.inworld.state.unpaused");
             case PAUSED:
-                return "paused";
+                return I18n.get("format.inworld.state.paused");
             case GAMESCREENOPEN:
-                return "gamescreenopen";
+                return I18n.get("format.inworld.state.gamescreenopen");
         }
-        return "(error)";
+        return I18n.get("format.error");
     }
 
     public static String formatInstanceStates(LinkedHashSet<InstanceState> instanceStates) {

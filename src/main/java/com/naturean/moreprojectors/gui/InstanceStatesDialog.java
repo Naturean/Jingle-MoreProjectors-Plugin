@@ -2,6 +2,7 @@ package com.naturean.moreprojectors.gui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.naturean.moreprojectors.util.I18n;
 import xyz.duncanruns.jingle.instance.InstanceState;
 
 import javax.swing.*;
@@ -45,7 +46,7 @@ public class InstanceStatesDialog extends JDialog {
         // Default button when dialog shows
         this.getRootPane().setDefaultButton(this.OKButton);
 
-        this.setTitle("Set Instance States");
+        this.setTitle(I18n.get("gui.title.instance.states"));
 
         OKButton.addActionListener(e -> InstanceStatesDialog.this.onOK());
         cancelButton.addActionListener(e -> InstanceStatesDialog.this.onCancel());
@@ -69,6 +70,18 @@ public class InstanceStatesDialog extends JDialog {
 
         // Set location at the center of owner
         this.setLocationRelativeTo(owner);
+        
+        // set i18n text
+        updateUIText();
+    }
+    
+    private void updateUIText() {
+        this.waitingCheckBox.setText(I18n.get("gui.state.waiting"));
+        this.titleCheckBox.setText(I18n.get("gui.state.title"));
+        this.inWorldCheckBox.setText(I18n.get("gui.state.inworld"));
+        this.wallCheckBox.setText(I18n.get("gui.state.wall"));
+        this.OKButton.setText(I18n.get("gui.button.ok"));
+        this.cancelButton.setText(I18n.get("gui.button.cancel"));
     }
 
     private void onOK() {

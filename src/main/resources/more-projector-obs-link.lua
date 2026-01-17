@@ -93,12 +93,21 @@ end
 ---- Script Functions ----
 
 function script_description()
-    return
-    [[
-    <h1>More Projectors OBS Link</h1>
-    <p>Links OBS to Jingle More Projectors Plugin.</p>
-    <p>This script is for automatically opening projectors.</p>
-    ]]
+    if obs.obs_get_locale() == "zh-CN" then
+        return
+        [[
+        <h1>More Projectors OBS Link</h1>
+        <p>连接OBS与Jingle More Projectors插件。</p>
+        <p>该脚本用于自动开启投影。</p>
+        ]]
+    else
+        return
+        [[
+        <h1>More Projectors OBS Link</h1>
+        <p>Links OBS to Jingle More Projectors Plugin.</p>
+        <p>This script is for automatically opening projectors.</p>
+        ]]
+    end
 end
 
 function script_load()

@@ -1,6 +1,7 @@
 package com.naturean.moreprojectors.projector;
 
 import com.naturean.moreprojectors.MoreProjectors;
+import com.naturean.moreprojectors.util.I18n;
 import com.naturean.moreprojectors.win.WindowProcessUtils;
 import com.naturean.moreprojectors.win.WindowUtils;
 import com.sun.jna.Pointer;
@@ -58,7 +59,7 @@ public final class Projector {
             this.settings.geometry[3] = rect.height;
 
             if (Objects.equals(rect, WindowProcessUtils.INVALID_RECTANGLE)) {
-                MoreProjectors.log(Level.WARN, "Got invalid rectangle for projector" + this.name + "!");
+                MoreProjectors.log(Level.WARN, I18n.format("projector.invalid.rectangle", this.name));
                 this.settings.geometry[0] = 0;
                 this.settings.geometry[1] = 0;
             }
@@ -92,7 +93,7 @@ public final class Projector {
         int newRight = windowWidth - this.settings.clipping[3];
 
         if (newRight <= newLeft || newBottom <= newTop) {
-            MoreProjectors.log(Level.WARN, "Invalid clipping area for projector" + this.name + "!");
+            MoreProjectors.log(Level.WARN, I18n.format("projector.invalid.clipping", this.name));
 
             newTop = 0;
             newBottom = windowHeight;

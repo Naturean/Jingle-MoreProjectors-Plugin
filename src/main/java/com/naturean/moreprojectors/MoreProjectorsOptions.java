@@ -3,6 +3,7 @@ package com.naturean.moreprojectors;
 import com.google.gson.*;
 import com.naturean.moreprojectors.projector.Projector;
 import com.naturean.moreprojectors.projector.ProjectorSettings;
+import com.naturean.moreprojectors.util.I18n;
 import org.apache.logging.log4j.Level;
 import xyz.duncanruns.jingle.util.FileUtil;
 
@@ -79,7 +80,7 @@ public class MoreProjectorsOptions {
         if(Files.exists(OPTIONS_PATH)) {
             try {
                 MoreProjectorsOptions options = FileUtil.readJson(OPTIONS_PATH, MoreProjectorsOptions.class);
-                MoreProjectors.log(Level.INFO, "Options loaded successfully.");
+                MoreProjectors.log(Level.INFO, I18n.get("plugin.options.loaded"));
                 return options;
             } catch (Exception e) {
                 return tryLoadOld();
@@ -92,7 +93,7 @@ public class MoreProjectorsOptions {
         try {
             FileUtil.writeString(OPTIONS_PATH, GSON.toJson(this));
         } catch(Exception e) {
-            MoreProjectors.logError("Failed to save options.json:", e);
+            MoreProjectors.logError(I18n.get("plugin.options.save.failed") + ":\n", e);
         }
     }
 
@@ -102,7 +103,7 @@ public class MoreProjectorsOptions {
             JsonObject json = FileUtil.readJson(OPTIONS_PATH, JsonElement.class).getAsJsonObject();
             return convertOldToNew(json);
         } catch (Exception e) {
-            MoreProjectors.logError("Failed to load options.json:", e);
+            MoreProjectors.logError(I18n.get("plugin.options.load.failed") + ":\n", e);
         }
         return (new MoreProjectorsOptions());
     }

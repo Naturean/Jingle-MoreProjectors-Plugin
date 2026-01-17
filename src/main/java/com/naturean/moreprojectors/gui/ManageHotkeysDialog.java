@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import com.naturean.moreprojectors.hotkey.ProjectorSettingHotkey;
+import com.naturean.moreprojectors.util.I18n;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -38,7 +39,7 @@ public class ManageHotkeysDialog extends JDialog {
         // Default button when dialog shows
         this.getRootPane().setDefaultButton(this.OKButton);
 
-        this.setTitle("Manage Hotkeys");
+        this.setTitle(I18n.get("gui.title.manage.hotkeys"));
 
         OKButton.addActionListener(e -> ManageHotkeysDialog.this.onOK());
         cancelButton.addActionListener(e -> ManageHotkeysDialog.this.onCancel());
@@ -55,6 +56,14 @@ public class ManageHotkeysDialog extends JDialog {
 
         // Set location at the center of owner
         this.setLocationRelativeTo(owner);
+
+        // set i18n text
+        updateUIText();
+    }
+    
+    private void updateUIText() {
+        this.OKButton.setText(I18n.get("gui.button.ok"));
+        this.cancelButton.setText(I18n.get("gui.button.cancel"));
     }
 
     private void createUIComponents() {

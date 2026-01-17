@@ -2,6 +2,7 @@ package com.naturean.moreprojectors.gui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.naturean.moreprojectors.util.I18n;
 import xyz.duncanruns.jingle.instance.InstanceState;
 
 import javax.swing.*;
@@ -43,7 +44,7 @@ public class InWorldStatesDialog extends JDialog {
         // Default button when dialog shows
         this.getRootPane().setDefaultButton(this.OKButton);
 
-        this.setTitle("Set In-World States");
+        this.setTitle(I18n.get("gui.title.inworld.states"));
 
         OKButton.addActionListener(e -> InWorldStatesDialog.this.onOK());
         cancelButton.addActionListener(e -> InWorldStatesDialog.this.onCancel());
@@ -67,6 +68,17 @@ public class InWorldStatesDialog extends JDialog {
 
         // Set location at the center of owner
         this.setLocationRelativeTo(owner);
+        
+        // set i18n text
+        updateUIText();
+    }
+    
+    private void updateUIText() {
+        this.unpausedCheckBox.setText(I18n.get("gui.state.unpaused"));
+        this.pausedCheckBox.setText(I18n.get("gui.state.paused"));
+        this.gameScreenOpenCheckBox.setText(I18n.get("gui.state.gamescreen"));
+        this.OKButton.setText(I18n.get("gui.button.ok"));
+        this.cancelButton.setText(I18n.get("gui.button.cancel"));
     }
 
     private void onOK() {
