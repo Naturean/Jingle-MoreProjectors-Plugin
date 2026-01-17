@@ -83,13 +83,13 @@ public class MoreProjectorsUpdater {
             return false;
         }
 
-        if (!meta.has("latest_version") || !meta.has("latest_download")) {
+        if (!meta.has("latest_version")) {
             MoreProjectors.log(Level.ERROR, I18n.get("updater.meta.invalid"));
             return false;
         }
 
 
-        String currentLanguage = I18n.get("global.current.language");
+        String currentLanguage = I18n.getCurrentLanguage();
         // non-english language package ends with a "+ab_CD" classifier.
         String classifier = Objects.equals(currentLanguage, I18n.DEFAULT_LANGUAGE) ? "" : "+" + currentLanguage;
         // Concat download link depends on the current language

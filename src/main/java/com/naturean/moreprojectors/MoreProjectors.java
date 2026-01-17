@@ -118,7 +118,7 @@ public class MoreProjectors {
             Files.copy(Objects.requireNonNull(MoreProjectors.class.getResourceAsStream("/more-projector-obs-link.lua")), OBS_SCRIPT_PATH, StandardCopyOption.REPLACE_EXISTING);
             MoreProjectors.log(Level.INFO, logMessage);
         } catch (IOException e) {
-            MoreProjectors.logError(I18n.get("plugin.obs.script.write.failed") + "\n", e);
+            MoreProjectors.logError(I18n.get("plugin.obs.script.write.failed") + ":\n", e);
         }
     }
 

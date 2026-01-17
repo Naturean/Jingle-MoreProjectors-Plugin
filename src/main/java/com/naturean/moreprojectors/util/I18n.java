@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Level;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
@@ -26,9 +25,6 @@ public class I18n {
      */
     private static void loadMessages() {
         String resourcePath = MoreProjectors.IS_DEV ? String.format("/lang/%s.properties", DEFAULT_LANGUAGE) : "/language.properties";
-
-        URL resourceUrl = I18n.class.getResource("/");
-        System.out.println(resourceUrl);
 
         try (InputStream input = I18n.class.getResourceAsStream(resourcePath)) {
             if (input == null) {
@@ -71,7 +67,7 @@ public class I18n {
     /**
      * Get current language code
      */
-    public static String getLanguage() {
+    public static String getCurrentLanguage() {
         return get("global.current.language");
     }
 }

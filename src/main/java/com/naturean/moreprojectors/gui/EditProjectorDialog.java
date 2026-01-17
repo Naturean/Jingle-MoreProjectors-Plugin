@@ -162,7 +162,7 @@ public class EditProjectorDialog extends JDialog {
         this.inWorldStateLabel.setText(I18n.get("gui.label.inworld.states"));
         ((TitledBorder) this.GeometryPanel.getBorder()).setTitle(I18n.get("gui.section.geometry"));
         this.projectorPosLabel.setText(I18n.get("gui.label.position") + ":");
-        this.projectorSizeLabel.setText(I18n.get("gui.label.size") + ": ");
+        this.projectorSizeLabel.setText(I18n.get("gui.label.size") + ":");
         this.inactivateWhenOtherCheckBox.setText(I18n.get("gui.checkbox.inactivate.when.other"));
         this.manageHotkeysButton.setText(I18n.get("gui.button.manage.hotkeys"));
         ((TitledBorder) this.clippingPanel.getBorder()).setTitle(I18n.get("gui.section.clipping"));
