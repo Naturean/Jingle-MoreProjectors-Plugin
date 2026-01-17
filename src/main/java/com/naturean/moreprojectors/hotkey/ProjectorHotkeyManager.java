@@ -2,6 +2,7 @@ package com.naturean.moreprojectors.hotkey;
 
 import com.naturean.moreprojectors.MoreProjectors;
 import com.naturean.moreprojectors.projector.Projector;
+import com.naturean.moreprojectors.util.I18n;
 import com.sun.jna.platform.win32.Win32VK;
 import xyz.duncanruns.jingle.hotkey.Hotkey;
 import xyz.duncanruns.jingle.util.KeyboardUtil;
@@ -70,7 +71,7 @@ public final class ProjectorHotkeyManager {
                         inactivateOtherProjectors(projectorHotkey.hotkey);
                         last_activated = projectorHotkey.hotkey.getKeys();
                     } catch (Throwable t) {
-                        MoreProjectors.logError("Error while running hotkey!", t);
+                        MoreProjectors.logError(I18n.get("hotkey.manager.run.error"), t);
                     }
                 }
             }

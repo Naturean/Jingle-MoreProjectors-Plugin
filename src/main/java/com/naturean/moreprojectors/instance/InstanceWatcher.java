@@ -1,6 +1,7 @@
 package com.naturean.moreprojectors.instance;
 
 import com.naturean.moreprojectors.MoreProjectors;
+import com.naturean.moreprojectors.util.I18n;
 import com.sun.jna.platform.win32.WinDef;
 import xyz.duncanruns.jingle.instance.InstanceChecker;
 import xyz.duncanruns.jingle.instance.InstanceState;
@@ -79,7 +80,7 @@ public class InstanceWatcher {
                     this.instanceState = InstanceState.WALL;
             }
         } catch (IOException e) {
-            MoreProjectors.logError("Reading wpstateout.txt failed:\n", e);
+            MoreProjectors.logError(I18n.get("instance.wpstate.read.error") + ":\n", e);
         }
     }
 

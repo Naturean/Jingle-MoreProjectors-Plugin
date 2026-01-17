@@ -7,6 +7,7 @@ import com.naturean.moreprojectors.MoreProjectors;
 import com.naturean.moreprojectors.hotkey.ProjectorHotkeyManager;
 import com.naturean.moreprojectors.projector.Projector;
 import com.naturean.moreprojectors.projector.ProjectorSettings;
+import com.naturean.moreprojectors.util.I18n;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -24,7 +25,16 @@ public class MoreProjectorsGUI extends JFrame {
 
     public MoreProjectorsGUI() {
         $$$setupUI$$$();
+
+        // set i18n text
+        updateUIText();
+        
         addButton.addActionListener(e -> MoreProjectorsGUI.this.onAdd());
+}
+    
+    
+    private void updateUIText() {
+        this.addButton.setText(I18n.get("gui.button.add"));
     }
 
     private void createUIComponents() {

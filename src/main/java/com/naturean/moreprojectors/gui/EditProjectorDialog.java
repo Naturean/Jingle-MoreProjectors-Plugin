@@ -6,6 +6,7 @@ import com.naturean.moreprojectors.MoreProjectors;
 import com.naturean.moreprojectors.hotkey.ProjectorSettingHotkey;
 import com.naturean.moreprojectors.instance.InstanceStateUtils;
 import com.naturean.moreprojectors.projector.Projector;
+import com.naturean.moreprojectors.util.I18n;
 import org.apache.commons.lang3.math.NumberUtils;
 import xyz.duncanruns.jingle.instance.InstanceState;
 
@@ -104,7 +105,7 @@ public class EditProjectorDialog extends JDialog {
         // Default button when dialog shows
         this.getRootPane().setDefaultButton(this.OKButton);
 
-        this.setTitle("Edit Projector");
+        this.setTitle(I18n.get("gui.title.edit"));
 
         this.manageHotkeysButton.addActionListener(e -> EditProjectorDialog.this.onManageHotkeys());
         this.OKButton.addActionListener(e -> EditProjectorDialog.this.onOK());
@@ -147,6 +148,30 @@ public class EditProjectorDialog extends JDialog {
     }
 
     private void finalizeComponents() {
+        // set i18n text
+        this.cancelButton.setText(I18n.get("gui.button.cancel"));
+        this.OKButton.setText(I18n.get("gui.button.ok"));
+        this.alwaysActivateCheckBox.setText(I18n.get("gui.checkbox.always.activate"));
+        this.borderlessCheckBox.setText(I18n.get("gui.checkbox.borderless"));
+        this.topCheckBox.setText(I18n.get("gui.checkbox.topmost"));
+        this.minimizeCheckBox.setText(I18n.get("gui.checkbox.minimize"));
+        this.autoOpenCheckBox.setText(I18n.get("gui.checkbox.auto.open"));
+        this.nameLabel.setText(I18n.get("gui.label.name"));
+        ((TitledBorder) this.allowedStatesPanel.getBorder()).setTitle(I18n.get("gui.section.activate.only.when"));
+        this.instanceStateLabel.setText(I18n.get("gui.label.instance.states"));
+        this.inWorldStateLabel.setText(I18n.get("gui.label.inworld.states"));
+        ((TitledBorder) this.GeometryPanel.getBorder()).setTitle(I18n.get("gui.section.geometry"));
+        this.projectorPosLabel.setText(I18n.get("gui.label.position") + ":");
+        this.projectorSizeLabel.setText(I18n.get("gui.label.size") + ": ");
+        this.inactivateWhenOtherCheckBox.setText(I18n.get("gui.checkbox.inactivate.when.other"));
+        this.manageHotkeysButton.setText(I18n.get("gui.button.manage.hotkeys"));
+        ((TitledBorder) this.clippingPanel.getBorder()).setTitle(I18n.get("gui.section.clipping"));
+        this.bottomClipLabel.setText(I18n.get("gui.label.bottom") + ":");
+        this.topClipLabel.setText(I18n.get("gui.label.top") + ":");
+        this.rightClipLabel.setText(I18n.get("gui.label.right") + ":");
+        this.leftClipLabel.setText(I18n.get("gui.label.left") + ":");
+
+        // set existed values
         this.nameTextField.setText(this.name);
         this.autoOpenCheckBox.setSelected(this.autoOpen);
         this.alwaysActivateCheckBox.setSelected(this.alwaysActivate);
@@ -155,6 +180,7 @@ public class EditProjectorDialog extends JDialog {
         this.minimizeCheckBox.setSelected(this.minimizeWhenInactive);
         this.inactivateWhenOtherCheckBox.setSelected(this.inactivateWhenOther);
 
+        // set geometry values
         if (geometry != null && geometry.length != 0) {
             this.projectorPosX.setText(String.valueOf(geometry[0]));
             this.projectorPosY.setText(String.valueOf(geometry[1]));
@@ -162,6 +188,7 @@ public class EditProjectorDialog extends JDialog {
             this.projectorSizeH.setText(String.valueOf(geometry[3]));
         }
 
+        // set clipping values
         if (clipping != null && clipping.length != 0) {
             this.topClipTextField.setText(String.valueOf(clipping[0]));
             this.bottomClipTextField.setText(String.valueOf(clipping[1]));
@@ -170,7 +197,7 @@ public class EditProjectorDialog extends JDialog {
         }
 
         this.instanceStateButton.setText(InstanceStateUtils.formatInstanceStates(this.allowedInstanceStates));
-        if (this.instanceStateButton.getText().isEmpty()) this.instanceStateButton.setText("None");
+        if (this.instanceStateButton.getText().isEmpty()) this.instanceStateButton.setText(I18n.get("gui.message.none"));
         this.instanceStateButton.addActionListener(e -> {
             synchronized (MoreProjectors.class) {
                 InstanceStatesDialog dialog = new InstanceStatesDialog(this, this.allowedInstanceStates);
@@ -179,7 +206,7 @@ public class EditProjectorDialog extends JDialog {
 
                 this.allowedInstanceStates = dialog.allowedInstanceStates;
                 this.instanceStateButton.setText(InstanceStateUtils.formatInstanceStates(this.allowedInstanceStates));
-                if (this.instanceStateButton.getText().isEmpty()) this.instanceStateButton.setText("None");
+                if (this.instanceStateButton.getText().isEmpty()) this.instanceStateButton.setText(I18n.get("gui.message.none"));
 
                 inWorldStateButton.setEnabled(this.allowedInstanceStates.contains(InstanceState.INWORLD));
 
@@ -189,7 +216,7 @@ public class EditProjectorDialog extends JDialog {
 
         inWorldStateButton.setEnabled(this.allowedInstanceStates.contains(InstanceState.INWORLD));
         this.inWorldStateButton.setText(InstanceStateUtils.formatInWorldStates(this.allowedInWorldStates));
-        if (this.inWorldStateButton.getText().isEmpty()) this.inWorldStateButton.setText("None");
+        if (this.inWorldStateButton.getText().isEmpty()) this.inWorldStateButton.setText(I18n.get("gui.message.none"));
         this.inWorldStateButton.addActionListener(e -> {
             synchronized (MoreProjectors.class) {
                 InWorldStatesDialog dialog = new InWorldStatesDialog(this, this.allowedInWorldStates);
@@ -198,7 +225,7 @@ public class EditProjectorDialog extends JDialog {
 
                 this.allowedInWorldStates = dialog.allowedInWorldStates;
                 this.inWorldStateButton.setText(InstanceStateUtils.formatInWorldStates(this.allowedInWorldStates));
-                if (this.inWorldStateButton.getText().isEmpty()) this.inWorldStateButton.setText("None");
+                if (this.inWorldStateButton.getText().isEmpty()) this.inWorldStateButton.setText(I18n.get("gui.message.none"));
 
                 this.pack();
             }

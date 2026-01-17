@@ -5,6 +5,7 @@ import com.naturean.moreprojectors.gui.MoreProjectorsGUI;
 import com.naturean.moreprojectors.hotkey.ProjectorHotkeyManager;
 import com.naturean.moreprojectors.instance.InstanceWatcher;
 import com.naturean.moreprojectors.obs.OBSLink;
+import com.naturean.moreprojectors.util.I18n;
 import org.apache.logging.log4j.Level;
 import xyz.duncanruns.jingle.Jingle;
 import xyz.duncanruns.jingle.JingleAppLaunch;
@@ -31,6 +32,8 @@ public class MoreProjectors {
     public static final Path OBS_SCRIPT_PATH = MORE_PROJECTORS_FOLDER_PATH.resolve("more-projector-obs-link.lua");
 
     public static final String CURRENT_VERSION = Optional.ofNullable(MoreProjectors.class.getPackage().getImplementationVersion()).orElse("DEV");
+    /** Current is development environment */
+    public static final boolean IS_DEV = CURRENT_VERSION.equals("DEV");
 
     private static boolean running = false;
 
@@ -47,10 +50,12 @@ public class MoreProjectors {
     public static void log(Level level, String message) {
         Jingle.log(level, "(MoreProjectors) " + message);
     }
-    public static void logError(String failMessage, Throwable t) { Jingle.logError("(MoreProjectors) " + failMessage, t); }
+    public static void logError(String failMessage, Throwable t) {
+        Jingle.logError("(MoreProjectors) " + failMessage, t);
+    }
 
     public static void initialize() {
-        MoreProjectors.log(Level.INFO, "Running MoreProjectors Plugin v" + CURRENT_VERSION + "!");
+        MoreProjectors.log(Level.INFO, I18n.format("plugin.running", CURRENT_VERSION));
 
         running = true;
 
@@ -69,7 +74,7 @@ public class MoreProjectors {
         MoreProjectorsUpdater.run();
 
         JPanel configGUI = new MoreProjectorsGUI().mainPanel;
-        JingleGUI.addPluginTab("More Projectors", configGUI);
+        JingleGUI.addPluginTab(I18n.get("gui.title.main"), configGUI);
     }
 
     private static void registerTick() {
@@ -93,27 +98,27 @@ public class MoreProjectors {
 
     private static void createMoreProjectorsFolder() {
         if(MORE_PROJECTORS_FOLDER_PATH.toFile().mkdirs()) {
-            MoreProjectors.log(Level.INFO, "Folder is created: " + MORE_PROJECTORS_FOLDER_PATH);
+            MoreProjectors.log(Level.INFO, I18n.get("plugin.folder.created") + ": " + MORE_PROJECTORS_FOLDER_PATH);
         }
     }
 
     private static void createObsLinkStateFile() {
         try {
             if (OBS_LINK_STATE_PATH.toFile().createNewFile()) {
-                MoreProjectors.log(Level.INFO, "obs-link-state file is created: " + OBS_LINK_STATE_PATH);
+                MoreProjectors.log(Level.INFO, I18n.get("plugin.obs.link.state.created") + ": " + OBS_LINK_STATE_PATH);
             }
         } catch (Exception e) {
-            MoreProjectors.logError("Failed to create obs-link-state file:\n", e);
+            MoreProjectors.logError(I18n.get("plugin.obs.link.state.create.failed") + ":\n", e);
         }
     }
 
     private static void createObsScriptFile() {
         try {
-            String logMessage = Files.exists(OBS_SCRIPT_PATH) ? "Regenerated" : "Generated";
+            String logMessage = Files.exists(OBS_SCRIPT_PATH) ? I18n.get("plugin.script.regenerated") : I18n.get("plugin.script.generated");
             Files.copy(Objects.requireNonNull(MoreProjectors.class.getResourceAsStream("/more-projector-obs-link.lua")), OBS_SCRIPT_PATH, StandardCopyOption.REPLACE_EXISTING);
-            MoreProjectors.log(Level.INFO, logMessage + " more-projector-obs-link.lua");
+            MoreProjectors.log(Level.INFO, logMessage);
         } catch (IOException e) {
-            MoreProjectors.logError("Failed to write more-projector-obs-link.lua:\n", e);
+            MoreProjectors.logError(I18n.get("plugin.obs.script.write.failed") + "\n", e);
         }
     }
 

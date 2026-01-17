@@ -3,6 +3,7 @@ package com.naturean.moreprojectors;
 import com.github.tuupertunut.powershelllibjava.PowerShellExecutionException;
 import com.google.gson.JsonObject;
 import com.naturean.moreprojectors.gui.DownloadProgressFrame;
+import com.naturean.moreprojectors.util.I18n;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.Level;
 import xyz.duncanruns.jingle.Jingle;
@@ -19,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 /**
  * Mostly references <a href="https://github.com/DuncanRuns/Julti/blob/main/src/main/java/xyz/duncanruns/julti/JingleUpdater.java">Julti</a>
@@ -38,13 +40,13 @@ public class MoreProjectorsUpdater {
     }
 
     private static void runAsync() {
-        MoreProjectors.log(Level.DEBUG, "Running updater asynchronously!");
+        MoreProjectors.log(Level.DEBUG, I18n.get("updater.checking"));
         try {
             if (tryCheckForUpdates()) {
                 int ans = JOptionPane.showConfirmDialog(
                         JingleGUI.get(),
-                        String.format("A newer version of MoreProjectors Plugin is found!\nUpdate now? (v%s -> v%s)", currentVersion, latestVersion),
-                        "MoreProjectors: New Version",
+                        I18n.format("updater.dialog.message", currentVersion, latestVersion),
+                        I18n.get("updater.dialog.title"),
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE
                 );
                 if(ans == JOptionPane.YES_OPTION) {
@@ -52,7 +54,7 @@ public class MoreProjectorsUpdater {
                 }
             }
         } catch (Exception e) {
-            MoreProjectors.logError("Unknown error when running updater:\n", e);
+            MoreProjectors.logError(I18n.get("updater.unknown.error") + ":\n", e);
         }
     }
 
@@ -60,7 +62,7 @@ public class MoreProjectorsUpdater {
         try {
             return checkForUpdates();
         } catch (Exception e) {
-            MoreProjectors.logError("Could not check for updates:\n", e);
+            MoreProjectors.logError(I18n.get("updater.check.failed") + ":\n", e);
         }
         return false;
     }
@@ -72,22 +74,29 @@ public class MoreProjectorsUpdater {
             currentVersion = MoreProjectors.CURRENT_VERSION;
         }
 
-        if (currentVersion.equals("DEV")) return false;
+        if (MoreProjectors.IS_DEV) return false;
 
         try {
             meta = GrabUtil.grabJson("https://raw.githubusercontent.com/Naturean/Jingle-MoreProjectors-Plugin/main/meta.json");
         } catch (Exception e) {
-            MoreProjectors.logError("Failed to grab update meta:", e);
+            MoreProjectors.logError(I18n.get("updater.fetch.failed") + ":\n", e);
             return false;
         }
 
         if (!meta.has("latest_version") || !meta.has("latest_download")) {
-            MoreProjectors.log(Level.ERROR, "Update meta is invalid, please check meta.json!");
+            MoreProjectors.log(Level.ERROR, I18n.get("updater.meta.invalid"));
             return false;
         }
 
+
+        String currentLanguage = I18n.get("global.current.language");
+        // non-english language package ends with a "+ab_CD" classifier.
+        String classifier = Objects.equals(currentLanguage, I18n.DEFAULT_LANGUAGE) ? "" : "+" + currentLanguage;
+        // Concat download link depends on the current language
+        String downloadLinkTemplate = "https://github.com/Naturean/Jingle-MoreProjectors-Plugin/releases/download/v%s/more-projectors-plugin-%s%s.jar";
+
         latestVersion = meta.get("latest_version").getAsString();
-        latestDownloadLink = meta.get("latest_download").getAsString();
+        latestDownloadLink = String.format(downloadLinkTemplate, latestVersion, latestVersion, classifier);
 
         return shouldUpdate(currentVersion, latestVersion);
     }
@@ -96,7 +105,7 @@ public class MoreProjectorsUpdater {
         try {
             update();
         } catch (Exception e) {
-            MoreProjectors.logError("Could not update:\n", e);
+            MoreProjectors.logError(I18n.get("updater.download.failed") + ":\n", e);
         }
     }
 
@@ -115,7 +124,7 @@ public class MoreProjectorsUpdater {
 
         // -deleteOldJar is one of the args of Jingle for deleting specific file
         String powerCommand = String.format("start-process '%s' '-jar \"%s\" -deleteOldJar \"%s\"'", javaExe, Jingle.getSourcePath(), MoreProjectors.getSourcePath());
-        MoreProjectors.log(Level.INFO, "Exiting and running powershell command: " + powerCommand);
+        MoreProjectors.log(Level.INFO, I18n.get("updater.powershell.command") + ": " + powerCommand);
 
         PowerShellUtil.execute(powerCommand);
         System.exit(0);
@@ -129,7 +138,7 @@ public class MoreProjectorsUpdater {
 
     private static boolean shouldUpdate(String currentVersion, String latestVersion) {
         if (currentVersion.equals(latestVersion)) {
-            MoreProjectors.log(Level.INFO, "Running on latest version.");
+            MoreProjectors.log(Level.INFO, I18n.get("updater.running.latest"));
             return false;
         }
 
@@ -140,7 +149,7 @@ public class MoreProjectorsUpdater {
         );
 
         if (compare == NEWER) {
-            MoreProjectors.log(Level.INFO, "Current version is newer than latest version!?");
+            MoreProjectors.log(Level.INFO, I18n.get("updater.current.newer"));
             return false;
         }
 

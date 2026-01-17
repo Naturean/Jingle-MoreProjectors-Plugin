@@ -1,5 +1,7 @@
 package com.naturean.moreprojectors.gui;
 
+import com.naturean.moreprojectors.util.I18n;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -14,7 +16,7 @@ public class DownloadProgressFrame extends JFrame {
 
     public DownloadProgressFrame(JFrame owner) {
         this.setLayout(new GridBagLayout());
-        JLabel text = new JLabel("Downloading MoreProjectors Plugin...");
+        JLabel text = new JLabel(I18n.get("updater.downloading"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -30,7 +32,7 @@ public class DownloadProgressFrame extends JFrame {
         });
 
         this.setSize(300, 100);
-        this.setTitle("MoreProjectors update");
+        this.setTitle(I18n.get("updater.download.title"));
         this.setLocationRelativeTo(owner);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
