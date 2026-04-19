@@ -1,6 +1,6 @@
 # Jingle More Projectors Plugin（Jingle更多投影插件）
 
-> **此仓库已归档。相比于Jingle，现在更建议你使用[ToolScreen](https://github.com/jojoe77777/Toolscreen)。**
+> **此仓库已归档。相比于Jingle，现在更建议你使用[Toolscreen](https://github.com/jojoe77777/Toolscreen)。**
 
 [English README](https://github.com/Naturean/Jingle-MoreProjectors-Plugin/blob/main/README.md)
 
