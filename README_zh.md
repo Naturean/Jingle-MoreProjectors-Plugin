@@ -1,5 +1,7 @@
 # Jingle More Projectors Plugin（Jingle更多投影插件）
 
+> **此仓库已归档。相比于Jingle，现在更建议你使用[ToolScreen](https://github.com/jojoe77777/Toolscreen)。**
+
 [English README](https://github.com/Naturean/Jingle-MoreProjectors-Plugin/blob/main/README.md)
 
 一个能够通过自定义配置来控制OBS投影的Jingle插件。

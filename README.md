@@ -1,5 +1,7 @@
 # Jingle More Projectors Plugin
 
+> **This repository has been archived. You are recommended to use [ToolScreen](https://github.com/jojoe77777/Toolscreen), rather than Jingle.**
+
 [中文README](https://github.com/Naturean/Jingle-MoreProjectors-Plugin/blob/main/README_zh.md)
 
 A Jingle plugin allows you to control more OBS projectors with customized configuration.
